@@ -1,3 +1,21 @@
+###########################################################################
+# Author: Wolfgang Traylor, Senckenberg BiK-F (wolfgang.traylor@senckenberg.de)
+# Convert paleoclimate data from 60ka HadCM3B run as input for LPJ-GUESS.
+###########################################################################
+
+# USER-DEFINED VARIABLES:
+
+# Boundary box for the region that is cut out.
+# It is very important to have a DECIMAL POINT in the number!
+LON1 ?= '130.0'
+LON2 ?= '230.0'
+LAT1 ?= '50.0'
+LAT2 ?= '80.0'
+
+
+###########################################################################
+###########################################################################
+
 # Make shall delete any target whose build sequence completes with a non-zero
 # return status:
 .DELETE_ON_ERROR:
@@ -19,7 +37,8 @@ default : $(all_output)
 # Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncatted --overwrite --attribute 'standard_name,downSol_Seaice_mm_s3_srf,o,c,surface_downwelling_shortwave_flux' --attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $< $@
+	ncks --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	ncatted --overwrite --attribute 'standard_name,downSol_Seaice_mm_s3_srf,o,c,surface_downwelling_shortwave_flux' --attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $@
 
 # Precipitation:
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc
