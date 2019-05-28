@@ -5,8 +5,21 @@ temp_files = $(shell ls external_files/bias_regrid_tas_*kyr.nc 2>/dev/null)
 wetdays_files = $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
 
 all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
+all_output = $(patsubst external_files/%,output/%,${all_originals})
 
 .PHONY:default
-default :
+default : $(all_output)
 	@echo "Original Files:"
 	@echo ${all_originals}
+
+output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc
+	@echo $@
+
+output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc
+	@echo $@
+
+output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc
+	@echo $@
+
+output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc
+	@echo $@
