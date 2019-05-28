@@ -18,13 +18,15 @@ Naming Conventions of Original Files
 - `wchill`: Windchill (degC)
 - `tempmonmin_abs`: Minimum month temperature (degC)
 
-Changes to Make to the Original
--------------------------------
+Changes Made to the Original
+----------------------------
 
-- Convert temperature from °C to Kelvin: standard name `air_temperature` and unit `K`.
-- Downwelling radiation: Set unit to `W m-2` and standard name to `surface_downwelling_shortwave_flux`. Though there’s no unit given in the original NetCDF file, we assume that it is in W/m².
-- Rainy days: Set standard name to `number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold`. The unit is irrelevant.
-- Precipitation: Set standard name to `precipitation_amount` and unit to `kg m-2`, which is equivalent to the original unit `mm/day`.
+- Change attributs & convert units:
+	- Convert temperature from °C to Kelvin: standard name `air_temperature` and unit `K`.
+	- Downwelling radiation: Set unit to `W m-2` and standard name to `surface_downwelling_shortwave_flux`. Though there’s no unit given in the original NetCDF file, we assume that it is in W/m².
+	- Rainy days: Set standard name to `number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold`. The unit is irrelevant.
+	- Precipitation: Set standard name to `precipitation_amount` and unit to `kg m-2`, which is equivalent to the original unit `mm/day`.
+- Crop to region.
 
 To Do
 -----
