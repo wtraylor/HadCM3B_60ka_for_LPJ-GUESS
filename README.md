@@ -1,11 +1,26 @@
-Prepare HadCM3B 60ka paleoclimate data as input for LPJ-GUESS
+Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
 =============================================================
+
+Naming Conventions of Original Files
+------------------------------------
+
+- `tas`: temp (degC)
+- `pr`: precip (mm/day)
+- `downSol_Seaice_mm_s3_srf`: Incoming SW (Wm-2)
+- `rd3_mm_srf`: Rainy days (number/month)
+- `wchill`: Windchill (degC)
+- `tempmonmin_abs`: Minimum month temperature (degC)
+
+Changes to Make to the Original
+-------------------------------
+
+- Convert temperature from °C to Kelvin: standard name `air_temperature` and unit `K`.
+- Downwelling radiation: Set unit to `W m-2` and standard name to `surface_downwelling_shortwave_flux`. Though there’s no unit given in the original NetCDF file, we assume that it is in W/m².
+- Rainy days: Set standard name to `number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold`. The unit is irrelevant.
+- Precipitation: Set standard name to `precipitation_amount` and unit to `kg m-2`, which is equivalent to the original unit `mm/day`.
 
 To Do
 -----
 
-- Check temperature unit.
-- Check radiation unit.
-- Check wet days unit.
 - Get CO₂ timeline.
 - Decide for a time unit.
