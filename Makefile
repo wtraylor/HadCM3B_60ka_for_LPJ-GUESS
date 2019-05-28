@@ -18,7 +18,7 @@ output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_S
 
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
-	@echo $@
+	ncatted --overwrite --attribute 'standard_name,pr,o,c,precipitation_amount' --attribute 'units,pr,o,c,kg m-2' $< $@
 
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
