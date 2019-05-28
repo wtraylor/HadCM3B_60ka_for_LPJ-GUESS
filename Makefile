@@ -38,24 +38,24 @@ clean :
 # Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.txt
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncatted --overwrite --attribute 'standard_name,downSol_Seaice_mm_s3_srf,o,c,surface_downwelling_shortwave_flux' --attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $@
 
 # Precipitation:
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.txt
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncatted --overwrite --attribute 'standard_name,pr,o,c,precipitation_amount' --attribute 'units,pr,o,c,kg m-2' $@
 
 # Temperature: convert °C to Kelvin
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.txt
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncap2 --overwrite --script 'tas += 273.2' $@
 	ncatted --overwrite --attribute 'standard_name,tas,o,c,air_temperature' --attribute 'units,tas,o,c,K' $@
 
 # Rainy/Wet Days:
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc options.txt
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncatted --overwrite --attribute 'standard_name,rd3_mm_srf,o,c,number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold' $@
