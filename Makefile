@@ -3,22 +3,12 @@
 # Convert paleoclimate data from 60ka HadCM3B run as input for LPJ-GUESS.
 ###########################################################################
 
-# USER-DEFINED VARIABLES:
-
-# Boundary box for the region that is cut out.
-# It is very important to have a DECIMAL POINT in the number!
-LON1 ?= '130.0'
-LON2 ?= '230.0'
-LAT1 ?= '50.0'
-LAT2 ?= '80.0'
-
-
-###########################################################################
-###########################################################################
-
 # Make shall delete any target whose build sequence completes with a non-zero
 # return status:
 .DELETE_ON_ERROR:
+
+# Import user-defined variables.
+include options.txt
 
 # ORIGINAL FILES
 insol_files = $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
@@ -35,7 +25,7 @@ default : $(all_output)
 	@echo ${all_originals}
 
 # Solar Radiation:
-output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc
+output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.txt
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncatted --overwrite --attribute 'standard_name,downSol_Seaice_mm_s3_srf,o,c,surface_downwelling_shortwave_flux' --attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $@
