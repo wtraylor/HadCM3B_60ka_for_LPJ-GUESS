@@ -12,19 +12,23 @@ default : $(all_output)
 	@echo "Original Files:"
 	@echo ${all_originals}
 
+# Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncatted --overwrite --attribute 'standard_name,downSol_Seaice_mm_s3_srf,o,c,surface_downwelling_shortwave_flux' --attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $< $@
 
+# Precipitation:
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncatted --overwrite --attribute 'standard_name,pr,o,c,precipitation_amount' --attribute 'units,pr,o,c,kg m-2' $< $@
 
+# Temperature: convert °C to Kelvin
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncap2 --script 'tas += 273.2' $< $@
 	ncatted --overwrite --attribute 'standard_name,tas,o,c,air_temperature' --attribute 'units,tas,o,c,K' $@
 
+# Rainy/Wet Days:
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo $@
