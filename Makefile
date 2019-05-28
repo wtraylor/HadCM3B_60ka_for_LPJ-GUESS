@@ -1,3 +1,7 @@
+# Make shall delete any target whose build sequence completes with a non-zero
+# return status:
+.DELETE_ON_ERROR:
+
 # ORIGINAL FILES
 insol_files = $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
 precip_files = $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
