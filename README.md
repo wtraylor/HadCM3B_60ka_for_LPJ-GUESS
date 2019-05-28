@@ -34,3 +34,4 @@ To Do
 - Create a `environment.yml` file plus instructions for how to use it with Anaconda.
 - Decide for a license.
 - Explain `external_files/` + checksums.
+- Prepare a LPJ-GUESS instructions file as a template.
