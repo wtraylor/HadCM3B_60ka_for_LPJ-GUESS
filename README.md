@@ -1,6 +1,13 @@
 Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
 =============================================================
 
+THIS REPOSITORY IS FOR INTERNAL USE ONLY.
+
+Authors
+-------
+
+Wolfgang Traylor (wolfgang.traylor@senckenberg.de), Senckenberg Biodiversity and Climate Research Centre
+
 Naming Conventions of Original Files
 ------------------------------------
 
@@ -24,3 +31,6 @@ To Do
 
 - Get CO₂ timeline.
 - Decide for a time unit.
+- Create a `environment.yml` file plus instructions for how to use it with Anaconda.
+- Decide for a license.
+- Explain `external_files/` + checksums.
