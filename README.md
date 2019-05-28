@@ -28,6 +28,25 @@ Changes Made to the Original
 	- Precipitation: Set standard name to `precipitation_amount` and unit to `kg m-2`, which is equivalent to the original unit `mm/day`.
 - Crop to region.
 
+Usage
+-----
+
+### Prerequisites
+- `make` (Usually installed on all UNIX systems.)
+- NCO (<https://nco.sourceforge.net/>)
+
+### Include Original Files
+The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
+
+### Options
+Manipulate the file `options.txt` with a text editor according to your needs.
+Instructions are in that file.
+
+### Run Make
+Open a terminal in the root directory of this repository, where the `Makefile` lies.
+- Execute `make` to run the script.
+- Execute `make clean` to remove files from the `output` folder. You can also just delete the `output` folder manually.
+
 To Do
 -----
 
