@@ -31,4 +31,4 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc
 # Rainy/Wet Days:
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
-	@echo $@
+	ncatted --overwrite --attribute 'standard_name,rd3_mm_srf,o,c,number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold' $< $@
