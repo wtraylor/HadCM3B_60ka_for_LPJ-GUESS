@@ -24,6 +24,17 @@ default : $(all_output)
 	@echo "Original Files:"
 	@echo ${all_originals}
 
+.PHONY: clean
+clean :
+	@echo 'Deleting temporary files in output folder...'
+	@rm --verbose --force output/*.tmp
+	@echo 'Regular output files:'
+	@ls output/*.nc 2>/dev/null && \
+	read -p 'Delete the files? [y|n]' -rs -n1 && \
+	test "$$REPLY" == 'y' && rm --verbose --force output/*.nc || \
+	exit 0
+	@echo 'Done.'
+
 # Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.txt
 	@mkdir --parents --verbose $(shell dirname $@)
