@@ -22,7 +22,8 @@ output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc
 
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
-	@echo $@
+	ncap2 --script 'tas += 273.2' $< $@
+	ncatted --overwrite --attribute 'standard_name,tas,o,c,air_temperature' --attribute 'units,tas,o,c,K' $@
 
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc
 	@mkdir --parents --verbose $(shell dirname $@)
