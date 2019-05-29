@@ -6,7 +6,7 @@ THIS REPOSITORY IS FOR INTERNAL USE ONLY.
 Authors
 -------
 
-Wolfgang Traylor (wolfgang.traylor@senckenberg.de), Senckenberg Biodiversity and Climate Research Centre
+Wolfgang Traylor (wolfgang.traylor@senckenberg.de), Senckenberg Biodiversity and Climate Research Centre Frankfurt, Germany
 
 Naming Conventions of Original Files
 ------------------------------------
