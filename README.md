@@ -26,6 +26,11 @@ Changes Made to the Original
 	- Downwelling radiation: Set unit to `W m-2` and standard name to `surface_downwelling_shortwave_flux`. Though there’s no unit given in the original NetCDF file, we assume that it is in W/m².
 	- Rainy days: Set standard name to `number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold`. The unit is irrelevant.
 	- Precipitation: Set standard name to `precipitation_amount` and unit to `kg m-2`, which is equivalent to the original unit `mm/day`.
+- Adjust the time:
+	- In the original, there is no time unit. Each datum is one month.
+	- NetCDF commands and LPJ-GUESS struggle with large negative year numbers.
+	- For now we define that each file individually starts counting the time from year "1".
+	- For that we define the time unit first as "months since 1-1-15" and then convert the time values to "days since 1-1-15" because LPJ-GUESS cannot handle the "months since" format.
 - Crop to region.
 
 Usage
@@ -51,7 +56,7 @@ To Do
 -----
 
 - Get CO₂ timeline.
-- Decide for a time unit.
+- Decide for a time unit that is transient over the whole dataset (60k years).
 - Create a `environment.yml` file plus instructions for how to use it with Anaconda.
 - Decide for a license.
 - Explain `external_files/` + checksums.
