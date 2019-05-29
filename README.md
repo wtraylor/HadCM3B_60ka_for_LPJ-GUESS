@@ -21,7 +21,7 @@ Naming Conventions of Original Files
 Changes Made to the Original
 ----------------------------
 
-- Change attributs & convert units:
+- Change attributes & convert units:
 	- Convert temperature from °C to Kelvin: standard name `air_temperature` and unit `K`.
 	- Downwelling radiation: Set unit to `W m-2` and standard name to `surface_downwelling_shortwave_flux`. Though there’s no unit given in the original NetCDF file, we assume that it is in W/m².
 	- Rainy days: Set standard name to `number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold`. The unit is irrelevant.
