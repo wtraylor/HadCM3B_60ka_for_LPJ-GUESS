@@ -3,6 +3,8 @@
 # Convert paleoclimate data from 60ka HadCM3B run as input for LPJ-GUESS.
 ###########################################################################
 
+SHELL=bash
+
 # Make shall delete any target whose build sequence completes with a non-zero
 # return status:
 .DELETE_ON_ERROR:
@@ -19,6 +21,10 @@ wetdays_files = $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
 all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
 all_output = $(patsubst external_files/%,output/%,${all_originals})
 
+# Take the first output file to create the gridlist. It could be any file,
+# relly.
+gridlist_reference = $(shell echo $(all_output) | cut -d' ' -f1)
+
 .PHONY:default
 default : $(all_output)
 	@echo "Original Files:"
@@ -34,6 +40,16 @@ clean :
 	test "$$REPLY" == 'y' && rm --verbose --force output/*.nc || \
 	exit 0
 	@echo 'Done.'
+
+# Gridlist:
+# Simply combine all longitudes with all latitudes, irrespective of the land mask.
+output/longitudes.tmp : $(gridlist_reference)
+	@ncks -H --string='%.2f\n' --variable=lon $< | grep --invert-match '^$$' >$@
+output/latitudes.tmp : $(gridlist_reference)
+	@ncks -H --string='%.2f\n' --variable=lat $< | grep --invert-match '^$$' >$@
+output/gridlist.txt : output/longitudes.tmp output/latitudes.tmp
+	@echo 'Creating gridlist file.'
+	combine_lon_lat.sh output/longitudes.tmp output/latitudes.tmp >$@
 
 # Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.txt
