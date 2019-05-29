@@ -55,6 +55,8 @@ Open a terminal in the root directory of this repository, where the `Makefile` l
 To Do
 -----
 
+- Write a Python script to overwrite time dimension with "days since".
+- Re-order dimensions for LPJ-GUESS with `ncpdq --re-order 'lon,lat,time' in.nc out.nc`.
 - Get CO₂ timeline.
 - Decide for a time unit that is transient over the whole dataset (60k years).
 - Create a `environment.yml` file plus instructions for how to use it with Anaconda.
