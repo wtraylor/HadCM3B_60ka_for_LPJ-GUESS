@@ -10,7 +10,7 @@ SHELL=bash
 .DELETE_ON_ERROR:
 
 # Import user-defined variables.
-include options.txt
+include options.make
 
 # ORIGINAL FILES
 insol_files = $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
@@ -52,7 +52,7 @@ output/gridlist.txt : output/longitudes.tmp output/latitudes.tmp
 	combine_lon_lat.sh output/longitudes.tmp output/latitudes.tmp >$@
 
 # Solar Radiation:
-output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.txt
+output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncatted --overwrite \
@@ -61,7 +61,7 @@ output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_S
 		--attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $@
 
 # Precipitation:
-output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.txt
+output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncatted --overwrite \
@@ -70,7 +70,7 @@ output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.tx
 		--attribute 'units,pr,o,c,kg m-2' $@
 
 # Temperature: convert °C to Kelvin
-output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.txt
+output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncap2 --overwrite --script 'tas += 273.2' $@
@@ -80,7 +80,7 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 		--attribute 'units,tas,o,c,K' $@
 
 # Rainy/Wet Days:
-output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc options.txt
+output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncatted --overwrite \

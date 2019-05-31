@@ -44,7 +44,7 @@ Usage
 The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
 
 ### Options
-Manipulate the file `options.txt` with a text editor according to your needs.
+Manipulate the file `options.make` with a text editor according to your needs.
 Instructions are in that file.
 
 ### Run Make
