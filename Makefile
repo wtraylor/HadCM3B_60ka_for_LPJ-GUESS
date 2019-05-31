@@ -21,7 +21,7 @@ wetdays_files = $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
 co2_files = $(patsubst external_files/bias_regrid_tas%,output/co2%,${temp_files})
 
 all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
-all_output = $(patsubst external_files/%,output/%,${all_originals}) $(co2_files)
+all_output = $(patsubst external_files/%,output/%,${all_originals}) $(co2_files) output/gridlist.txt
 
 # Take the first output file to create the gridlist. It could be any file,
 # relly.
