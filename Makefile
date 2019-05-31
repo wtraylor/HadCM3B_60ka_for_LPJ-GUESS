@@ -51,7 +51,7 @@ LON_REGEX := '(?<=lon = )\d*(?= ;$$)'
 output/gridlist.txt : $(gridlist_reference)
 	@echo 'Creating gridlist file.'
 	@rm --force $@
-	lat_count=$$(ncks --variable=lat $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LAT_REGEX)) && \
+	@lat_count=$$(ncks --variable=lat $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LAT_REGEX)) && \
 	lon_count=$$(ncks --variable=lon $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LON_REGEX)) && \
 	for lon in $$(seq 0 $$(($$lat_count - 1))); do \
 		for lat in $$(seq 0 $$(($$lon_count - 1))); do \
