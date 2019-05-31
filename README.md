@@ -42,6 +42,8 @@ Usage
 
 ### Include Original Files
 The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
+For each of the original NetCDF files one output file is created.
+So if you don’t want to include the whole time series, you put only those files into `external_files` that you are interested in having prepared for LPJ-GUESS.
 
 ### Options
 Manipulate the file `options.make` with a text editor according to your needs.
