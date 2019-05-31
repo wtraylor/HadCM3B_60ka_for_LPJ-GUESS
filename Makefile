@@ -73,7 +73,7 @@ output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.ma
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
-	ncap2 --overwrite --script 'tas += 273.2' $@
+	ncap2 --overwrite --script 'tas += 273.2' $@ $@
 	ncatted --overwrite \
 		--attribute 'units,time,o,c,months since 1-1-15' \
 		--attribute 'standard_name,tas,o,c,air_temperature' \
