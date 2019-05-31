@@ -43,13 +43,20 @@ clean :
 
 # Gridlist:
 # Simply combine all longitudes with all latitudes, irrespective of the land mask.
-output/longitudes.tmp : $(gridlist_reference)
-	@ncks -H --string='%.2f\n' --variable=lon $< | grep --invert-match '^$$' >$@
-output/latitudes.tmp : $(gridlist_reference)
-	@ncks -H --string='%.2f\n' --variable=lat $< | grep --invert-match '^$$' >$@
-output/gridlist.txt : output/longitudes.tmp output/latitudes.tmp
+# Not ethat the cf_gridlist in LPJ-GUESS just takes indices, not actual longitude and latitude
+# THe regular expression matches the number in e.g. "lat = 30 ;".
+LAT_REGEX := '(?<=lat = )\d*(?= ;$$)'
+LON_REGEX := '(?<=lon = )\d*(?= ;$$)'
+output/gridlist.txt : $(gridlist_reference)
 	@echo 'Creating gridlist file.'
-	combine_lon_lat.sh output/longitudes.tmp output/latitudes.tmp >$@
+	@echo '' > $@
+	lat_count=$$(ncks --variable=lat $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LAT_REGEX)) && \
+	lon_count=$$(ncks --variable=lon $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LON_REGEX)) && \
+	for lon in $$(seq 0 $$(($$lat_count - 1))); do \
+		for lat in $$(seq 0 $$(($$lon_count - 1))); do \
+			echo -e "$$lon\t$$lat" >> $@ ; \
+		done ; \
+	done
 
 # Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.make
