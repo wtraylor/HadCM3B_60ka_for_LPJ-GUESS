@@ -29,8 +29,7 @@ gridlist_reference = $(shell echo $(all_output) | cut -d' ' -f1)
 
 .PHONY:default
 default : $(all_output)
-	@echo "Original Files:"
-	@echo ${all_originals}
+	@echo 'Done.'
 
 .PHONY: clean
 clean :
