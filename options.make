@@ -7,3 +7,5 @@ LON2 = '10.0'
 LAT1 = '45.0'
 LAT2 = '55.0'
 
+# Constant CO₂ value in ppm:
+CO2_CONSTANT = 340

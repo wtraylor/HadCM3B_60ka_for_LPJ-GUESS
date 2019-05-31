@@ -18,8 +18,10 @@ precip_files = $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
 temp_files = $(shell ls external_files/bias_regrid_tas_*kyr.nc 2>/dev/null)
 wetdays_files = $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
 
+co2_files = $(patsubst external_files/bias_regrid_tas%,output/co2%,${temp_files})
+
 all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
-all_output = $(patsubst external_files/%,output/%,${all_originals})
+all_output = $(patsubst external_files/%,output/%,${all_originals}) $(co2_files)
 
 # Take the first output file to create the gridlist. It could be any file,
 # relly.
@@ -93,3 +95,13 @@ output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc opti
 	ncatted --overwrite \
 		--attribute 'units,time,o,c,months since 1-1-15' \
 		--attribute 'standard_name,rd3_mm_srf,o,c,number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold' $@
+
+# Create a CO₂ file with constant values for each temperature file (but that
+# could be any other variable, too).
+output/co2_%kyr.nc : output/bias_regrid_tas_%kyr.nc
+	@echo "Creating CO₂ file with constant value $(CO2_CONSTANT) ppm: "
+	@echo $@
+	@rm --force $@
+	@for year in $$(seq 2400); do \
+		echo -e "$$year\t$(CO2_CONSTANT)" >> $@ ; \
+	done
