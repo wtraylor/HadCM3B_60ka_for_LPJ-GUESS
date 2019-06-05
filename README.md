@@ -51,7 +51,7 @@ Instructions are in that file.
 
 ### Run Make
 Open a terminal in the root directory of this repository, where the `Makefile` lies.
-- Execute `make` to run the script.
+- Execute `make` to run the script. If you have a multi-core machine, you can gain speed by running parallel jobs with the `-j/--jobs` flag, e.g.: `make --jobs=5`.
 - Execute `make clean` to remove files from the `output` folder. You can also just delete the `output` folder manually.
 
 To Do
