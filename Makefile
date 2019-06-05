@@ -63,8 +63,9 @@ output/gridlist.txt : $(gridlist_reference)
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
 	ncatted --overwrite \
-		--attribute 'units,time,o,c,months since 1-1-15' \
+		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
 		--attribute 'standard_name,lat,o,c,latitude' \
@@ -75,8 +76,9 @@ output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_S
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
 	ncatted --overwrite \
-		--attribute 'units,time,o,c,months since 1-1-15' \
+		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
 		--attribute 'standard_name,lat,o,c,latitude' \
@@ -88,8 +90,9 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
 	ncap2 --overwrite --script 'tas += 273.2' $@ $@
+	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
 	ncatted --overwrite \
-		--attribute 'units,time,o,c,months since 1-1-15' \
+		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
 		--attribute 'standard_name,lat,o,c,latitude' \
@@ -100,8 +103,9 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
 	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
 	ncatted --overwrite \
-		--attribute 'units,time,o,c,months since 1-1-15' \
+		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
 		--attribute 'standard_name,lat,o,c,latitude' \
