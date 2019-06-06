@@ -39,6 +39,12 @@ Usage
 ### Prerequisites
 - `make` (Usually installed on all UNIX systems.)
 - NCO (<https://nco.sourceforge.net/>)
+- Python 3 with [XArray](https://pypi.org/project/xarray/), [SciPy](https://pypi.org/project/scipy/), and [netCDF4](https://pypi.org/project/netCDF4/)
+- The recommended way to reproduce this project is to use [Anaconda](https://anaconda.org) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html):
+    + Install Anaconda or Miniconda locally or system-wide.
+    + In this repository run `conda env create environment.yml`. This should install all necessary dependencies.
+    + Switch into the environment: `conda activate HadCM3B_60ka_for_LPJ-GUESS`
+    + Now run `make` as described below.
 
 ### Include Original Files
 The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
@@ -51,6 +57,7 @@ Instructions are in that file.
 
 ### Run Make
 Open a terminal in the root directory of this repository, where the `Makefile` lies.
+
 - Execute `make` to run the script. If you have a multi-core machine, you can gain speed by running parallel jobs with the `-j/--jobs` flag, e.g.: `make --jobs=5`.
 - Execute `make clean` to remove files from the `output` folder. You can also just delete the `output` folder manually.
 
