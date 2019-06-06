@@ -117,6 +117,6 @@ output/co2_%kyr.nc : output/bias_regrid_tas_%kyr.nc
 	@echo "Creating CO₂ file with constant value $(CO2_CONSTANT) ppm: "
 	@echo $@
 	@rm --force $@
-	@for year in $$(seq 2400); do \
+	@for year in $$(seq 2500); do \
 		echo -e "$$year\t$(CO2_CONSTANT)" >> $@ ; \
 	done
