@@ -113,7 +113,7 @@ output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc opti
 
 # Create a CO₂ file with constant values for each temperature file (but that
 # could be any other variable, too).
-output/co2_%kyr.nc : output/bias_regrid_tas_%kyr.nc
+output/co2_%kyr.txt : output/bias_regrid_tas_%kyr.nc
 	@echo "Creating CO₂ file with constant value $(CO2_CONSTANT) ppm: "
 	@echo $@
 	@rm --force $@
