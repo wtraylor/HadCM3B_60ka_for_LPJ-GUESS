@@ -18,7 +18,7 @@ precip_files = $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
 temp_files = $(shell ls external_files/bias_regrid_tas_*kyr.nc 2>/dev/null)
 wetdays_files = $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
 
-co2_files = $(patsubst external_files/bias_regrid_tas%,output/co2%,${temp_files})
+co2_files = $(patsubst external_files/bias_regrid_tas%.nc,output/co2%.txt,${temp_files})
 
 all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
 all_output = $(patsubst external_files/%,output/%,${all_originals}) $(co2_files) output/gridlist.txt
