@@ -31,7 +31,7 @@ Changes Made to the Original
 	- NetCDF commands and LPJ-GUESS struggle with large negative year numbers.
 	- For now we define that each file individually starts counting the time from year "1".
 	- For that we define the time unit first as "months since 1-1-15" and then convert the time values to "days since 1-1-15" because LPJ-GUESS cannot handle the "months since" format.
-- Crop to region.
+- Crop to the region specified in `options.make` (optional).
 
 Usage
 -----
