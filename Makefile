@@ -95,6 +95,7 @@ output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.ma
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo 'Creating precipitation file: $@'
 	$(crop_and_convert_time)
+	@echo -e '\tSetting metadata...'
 	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
@@ -108,7 +109,9 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo 'Creating temperature file: $@'
 	$(crop_and_convert_time)
-	ncap2 --overwrite --script 'tas += 273.2' $@ $@
+	@echo -e '\tConverting Kelvin to °C...'
+	@ncap2 --overwrite --script 'tas += 273.2' $@ $@
+	@echo -e '\tSetting metadata...'
 	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
@@ -122,6 +125,7 @@ output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc opti
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo 'Creating wet days file: $@'
 	$(crop_and_convert_time)
+	@echo -e '\tSetting metadata...'
 	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
