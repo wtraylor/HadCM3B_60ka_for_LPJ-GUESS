@@ -109,7 +109,7 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo 'Creating temperature file: $@'
 	$(crop_and_convert_time)
-	@echo -e '\tConverting Kelvin to °C...'
+	@echo -e '\tConverting °C to Kelvin...'
 	@ncap2 --overwrite --script 'tas += 273.2' $@ $@
 	@echo -e '\tSetting metadata...'
 	@ncatted --overwrite \
