@@ -49,7 +49,7 @@ clean :
 LAT_REGEX := '(?<=lat = )\d*(?= ;$$)'
 LON_REGEX := '(?<=lon = )\d*(?= ;$$)'
 output/gridlist.txt : $(gridlist_reference)
-	@echo 'Creating gridlist file.'
+	@echo 'Creating gridlist file: $@'
 	@rm --force $@
 	@lat_count=$$(ncks --variable=lat $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LAT_REGEX)) && \
 	lon_count=$$(ncks --variable=lon $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LON_REGEX)) && \
@@ -59,12 +59,30 @@ output/gridlist.txt : $(gridlist_reference)
 		done ; \
 	done
 
+# Generic function for cropping (hyperslabbing) the file by the coordinates
+# given in options.make.
+# - If not all coordinates are given, cropping is skipped.
+# - For months_to_days.py we need to create a temporary file because Python
+#   XArray cannot write into the file it has currently opened.
+crop_and_convert_time = \
+	@rm --force $@ ;\
+	if [ -z "$$LON1" ] || [ -z "$$LON2" ] || [ -z "$$LAT1" ] || [ -z "$$LAT2" ]; then \
+		echo -e '\tConverting time axis...' ;\
+		./months_to_days.py $< $@ ;\
+	else \
+		echo -e '\tCropping...' ;\
+		ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@ ;\
+		echo -e '\tConverting time axis...' ;\
+		readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@ ;\
+	fi
+
 # Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
-	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
-	ncatted --overwrite \
+	@echo 'Creating solar radiation file: $@'
+	$(crop_and_convert_time)
+	@echo -e '\tSetting metadata...'
+	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
@@ -75,9 +93,9 @@ output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_S
 # Precipitation:
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
-	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
-	ncatted --overwrite \
+	@echo 'Creating precipitation file: $@'
+	$(crop_and_convert_time)
+	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
@@ -88,10 +106,10 @@ output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.ma
 # Temperature: convert °C to Kelvin
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
+	@echo 'Creating temperature file: $@'
+	$(crop_and_convert_time)
 	ncap2 --overwrite --script 'tas += 273.2' $@ $@
-	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
-	ncatted --overwrite \
+	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
@@ -102,9 +120,9 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 # Rainy/Wet Days:
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@
-	readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@
-	ncatted --overwrite \
+	@echo 'Creating wet days file: $@'
+	$(crop_and_convert_time)
+	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
 		--attribute 'standard_name,lon,o,c,longitude' \
