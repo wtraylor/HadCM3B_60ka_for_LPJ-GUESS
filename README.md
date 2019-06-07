@@ -32,6 +32,7 @@ Changes Made to the Original
 	- For now we define that each file individually starts counting the time from year "1".
 	- For that we define the time unit first as "months since 1-1-15" and then convert the time values to "days since 1-1-15" because LPJ-GUESS cannot handle the "months since" format.
 - Crop to the region specified in `options.make` (optional).
+- Create attribute `missing_value`, which is deprecated, but recognized by LPJ-GUESS. It has the same value as `_FillValue`. Compare the [NCO reference](http://nco.sourceforge.net/nco.html#Missing-Values).
 
 Usage
 -----
