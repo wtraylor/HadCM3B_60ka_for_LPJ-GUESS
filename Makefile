@@ -66,7 +66,7 @@ output/gridlist.txt : $(gridlist_reference)
 #   XArray cannot write into the file it has currently opened.
 crop_and_convert_time = \
 	@rm --force $@ ;\
-	if [ -z "$$LON1" ] || [ -z "$$LON2" ] || [ -z "$$LAT1" ] || [ -z "$$LAT2" ]; then \
+	if [ -z "$(LON1)" ] || [ -z "$(LON2)" ] || [ -z "$(LAT1)" ] || [ -z "$(LAT2)" ]; then \
 		echo -e '\tConverting time axis...' ;\
 		./months_to_days.py $< $@ ;\
 	else \
