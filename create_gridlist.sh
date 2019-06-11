@@ -63,8 +63,6 @@ for lat in $(seq 0 $(($lat_count - 1))); do
   for lon in $(seq 0 $(($lon_count - 1))); do
     if ! cell_is_invalid "$lon" "$lat"; then
       echo -e "$lon\t$lat" >> "$out_file"
-    else
-      echo invalid: lon=$lon lat=$lat
     fi
   done
 done
