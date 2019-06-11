@@ -34,6 +34,16 @@ Changes Made to the Original
 - Crop to the region specified in `options.make` (optional).
 - Create attribute `missing_value`, which is deprecated, but recognized by LPJ-GUESS. It has the same value as `_FillValue`. Compare the [NCO reference](http://nco.sourceforge.net/nco.html#Missing-Values).
 
+Repository Structure
+--------------------
+
+- `Makefile`: Contains all top-level execution logic. Call it with the `make` command.
+- `create_gridlist.sh`: Helper script to create the `gridlist.txt` file. Don’t call this directly, `make` does that.
+- `external_files/`: Original input files. See section “Include Original Files”.
+- `months_to_days.py`: Helper script to convert time unit from “months since” to “days since”. Don’t call this directly.
+- `options.make`: User-defined options in `Makefile` syntax.
+- `output/`: Will be created automatically and contains the output files. (If you have limited space on your local hard drive, you can mount or symlink a folder from another drive here, overriding the default `output/` folder. Do this before calling `make`.)
+
 Usage
 -----
 
