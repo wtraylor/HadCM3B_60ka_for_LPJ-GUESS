@@ -25,7 +25,7 @@ all_output = $(patsubst external_files/%,output/%,${all_originals}) $(co2_files)
 
 # Take the first temperature output file to create the gridlist. It could
 # be any file.
-gridlist_reference = $(shell $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
+gridlist_reference = $(shell echo $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
 gridlist_var = 'tas'  # NetCDF variable in $(gridlist_reference).
 
 .PHONY:default
