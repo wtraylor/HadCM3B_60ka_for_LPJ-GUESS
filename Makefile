@@ -23,9 +23,10 @@ co2_files = $(patsubst external_files/bias_regrid_tas%.nc,output/co2%.txt,${temp
 all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
 all_output = $(patsubst external_files/%,output/%,${all_originals}) $(co2_files) output/gridlist.txt
 
-# Take the first output file to create the gridlist. It could be any file,
-# relly.
-gridlist_reference = $(shell echo $(all_output) | cut -d' ' -f1)
+# Take the first temperature output file to create the gridlist. It could
+# be any file.
+gridlist_reference = $(shell $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
+gridlist_var = 'tas'  # NetCDF variable in $(gridlist_reference).
 
 .PHONY:default
 default : $(all_output)
@@ -42,22 +43,10 @@ clean :
 	exit 0
 	@echo 'Done.'
 
-# Gridlist:
-# Simply combine all longitudes with all latitudes, irrespective of the land mask.
-# Not ethat the cf_gridlist in LPJ-GUESS just takes indices, not actual longitude and latitude
-# THe regular expression matches the number in e.g. "lat = 30 ;".
-LAT_REGEX := '(?<=lat = )\d*(?= ;$$)'
-LON_REGEX := '(?<=lon = )\d*(?= ;$$)'
 output/gridlist.txt : $(gridlist_reference)
 	@echo 'Creating gridlist file: $@'
 	@rm --force $@
-	@lat_count=$$(ncks --variable=lat $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LAT_REGEX)) && \
-	lon_count=$$(ncks --variable=lon $< | grep --after-context=1 'dimensions:'  | grep --perl-regexp --only-matching $(LON_REGEX)) && \
-	for lon in $$(seq 0 $$(($$lat_count - 1))); do \
-		for lat in $$(seq 0 $$(($$lon_count - 1))); do \
-			echo -e "$$lon\t$$lat" >> $@ ; \
-		done ; \
-	done
+	./create_gridlist.sh "$<" $(gridlist_var) $@
 
 # Generic function for cropping (hyperslabbing) the file by the coordinates
 # given in options.make.
