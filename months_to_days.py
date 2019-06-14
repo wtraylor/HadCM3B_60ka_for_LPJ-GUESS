@@ -56,7 +56,7 @@ days_axis = numpy.zeros(total_month_count, dtype='i')  # reserve memory
 days_axis[0] = start_day + 15
 for i in range(len(days_axis)-1):
     current_month = i % 12
-    days_axis[i+1] = start_day + days_axis[i] + month_lengths[current_month]
+    days_axis[i+1] = days_axis[i] + month_lengths[current_month]
 # Now days_axis contains the Julian day for the +/- middle of each month:
 # [15, 43, 74, 104, ...]
 
