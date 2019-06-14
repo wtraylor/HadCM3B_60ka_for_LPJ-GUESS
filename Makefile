@@ -27,13 +27,18 @@ wetdays_output = $(patsubst external_files/%,output/%,${wetdays_files})
 all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
 all_output = $(insol_output) $(precip_output) $(temp_output) $(wetdays_output) $(co2_output) output/gridlist.txt
 
+final_outputs = output/insolation.nc \
+								output/precipitation.nc \
+								output/temperature.nc \
+								output/wet_days.nc
+
 # Take the first temperature output file to create the gridlist. It could
 # be any file.
 gridlist_reference = $(shell echo $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
 gridlist_var = 'tas'  # NetCDF variable in $(gridlist_reference).
 
 .PHONY:default
-default : $(all_output)
+default : $(final_outputs)
 	@echo 'Done.'
 
 .PHONY: clean
@@ -152,17 +157,21 @@ output/co2.txt :
 # means the files need to be sorted in reversed alphabetical order,
 # starting with "60" all the way to "0".
 
-concatenate_along_time = echo $^ | sed 's/ /\n/g' | sort --reverse | \
+concatenate_along_time = @echo $^ | sed 's/ /\n/g' | sort --reverse | \
 												 xargs ncrcat --overwrite --output $@
 
 output/insolation.nc : $(insol_output)
+	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
 
 output/precipitation.nc : $(precip_output)
+	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
 
 output/temperature.nc : $(temp_output)
+	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
 
 output/wet_days.nc : $(wetdays_output)
+	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
