@@ -24,9 +24,6 @@ precip_output  = $(patsubst external_files/%,output/%,${insol_files})
 temp_output    = $(patsubst external_files/%,output/%,${temp_files})
 wetdays_output = $(patsubst external_files/%,output/%,${wetdays_files})
 
-all_originals = ${insol_files} ${precip_files} ${temp_files} ${wetdays_files}
-all_output = $(insol_output) $(precip_output) $(temp_output) $(wetdays_output) $(co2_output) output/gridlist.txt
-
 final_outputs = output/insolation.nc \
 								output/precipitation.nc \
 								output/temperature.nc \
