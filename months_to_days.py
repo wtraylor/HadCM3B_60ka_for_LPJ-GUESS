@@ -37,7 +37,7 @@ if os.path.isfile(out_file):
 # For example the filename "regrid_downSol_Seaice_mm_s3_srf_2.5_5kyr.nc" will
 # yield the start year 55000 (60ka - 5ka).
 try:
-    start_year_str = re.search('(?<=_)\d+\.?5?(?=kyr\.nc)', in_file).group(0)
+    start_year_str = re.search(r'(?<=_)\d+\.?5?(?=kyr\.nc)', in_file).group(0)
     start_year = (60 - float(start_year_str)) * 1000
 except (AttributeError, ValueError):
     sys.exit('Failed to extract year information from file name:\n'
