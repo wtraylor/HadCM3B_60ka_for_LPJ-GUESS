@@ -130,9 +130,8 @@ output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc opti
 		--attribute 'missing_value,rd3_mm_srf,c,f,9.96921e+36' \
 		--attribute 'standard_name,rd3_mm_srf,o,c,number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold' $@
 
-# Create a CO₂ file with constant values for each temperature file (but that
-# could be any other variable, too).
-output/co2_%kyr.txt : output/bias_regrid_tas_%kyr.nc
+# Create a CO₂ file covering the whole time span from 0 to 60,000 years.
+output/co2.txt :
 	@echo "Creating CO₂ file with constant value $(CO2_CONSTANT) ppm: "
 	@echo $@
 	@rm --force $@
