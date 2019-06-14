@@ -83,6 +83,8 @@ output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_S
 		--attribute 'missing_value,downSol_Seaice_mm_s3_srf,c,f,9.96921e+36' \
 		--attribute 'standard_name,downSol_Seaice_mm_s3_srf,o,c,surface_downwelling_shortwave_flux' \
 		--attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $@
+	@echo -e '\tSetting "time" as record dimension...'
+	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Precipitation:
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.make
@@ -98,6 +100,8 @@ output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.ma
 		--attribute 'standard_name,pr,o,c,precipitation_amount' \
 		--attribute 'missing_value,pr,c,f,9.96921e+36' \
 		--attribute 'units,pr,o,c,kg m-2' $@
+	@echo -e '\tSetting "time" as record dimension...'
+	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Temperature: convert °C to Kelvin
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.make
@@ -115,6 +119,8 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 		--attribute 'standard_name,tas,o,c,air_temperature' \
 		--attribute 'missing_value,tas,c,f,9.96921e+36' \
 		--attribute 'units,tas,o,c,K' $@
+	@echo -e '\tSetting "time" as record dimension...'
+	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Rainy/Wet Days:
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc options.make
@@ -129,6 +135,8 @@ output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc opti
 		--attribute 'standard_name,lat,o,c,latitude' \
 		--attribute 'missing_value,rd3_mm_srf,c,f,9.96921e+36' \
 		--attribute 'standard_name,rd3_mm_srf,o,c,number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold' $@
+	@echo -e '\tSetting "time" as record dimension...'
+	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Create a CO₂ file covering the whole time span from 0 to 60,000 years.
 output/co2.txt :
@@ -138,3 +146,23 @@ output/co2.txt :
 	@for year in $$(seq 60000); do \
 		echo -e "$$year\t$(CO2_CONSTANT)" >> $@ ; \
 	done
+
+# Concatenate files along time dimension
+# We need to feed the files in chronological order into `ncrcat`, which
+# means the files need to be sorted in reversed alphabetical order,
+# starting with "60" all the way to "0".
+
+concatenate_along_time = echo $^ | sed 's/ /\n/g' | sort --reverse | \
+												 xargs ncrcat --overwrite --output $@
+
+output/insolation.nc : $(insol_output)
+	$(concatenate_along_time)
+
+output/precipitation.nc : $(precip_output)
+	$(concatenate_along_time)
+
+output/temperature.nc : $(temp_output)
+	$(concatenate_along_time)
+
+output/wet_days.nc : $(wetdays_output)
+	$(concatenate_along_time)
