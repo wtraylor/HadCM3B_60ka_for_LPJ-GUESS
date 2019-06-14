@@ -135,6 +135,6 @@ output/co2.txt :
 	@echo "Creating CO₂ file with constant value $(CO2_CONSTANT) ppm: "
 	@echo $@
 	@rm --force $@
-	@for year in $$(seq 2500); do \
+	@for year in $$(seq 60000); do \
 		echo -e "$$year\t$(CO2_CONSTANT)" >> $@ ; \
 	done
