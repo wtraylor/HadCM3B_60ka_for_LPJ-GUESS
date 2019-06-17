@@ -46,8 +46,10 @@ squares = list()
 
 while square[2] <= lat_bounds[1] - .001:  # latitude loop from S to N
     while square[0] <= lon_bounds[1] - .001:  # longitude loop from E to W
-        squares += [square[:]]
-        sys.stdout.write("%.2f %.2f %.2f %.2f\n" % tuple(square))
+        square_normalized = [square[0] % 360, square[1] % 360,
+                             square[2], square[3]]
+        squares += [square_normalized[:]]
+        sys.stdout.write("%.2f %.2f %.2f %.2f\n" % tuple(squares[-1]))
         # Move to next square along the longitude axis. Leave latitude within
         # this loop untouched.
         square = [square[1], inc_lon(square[1]),
