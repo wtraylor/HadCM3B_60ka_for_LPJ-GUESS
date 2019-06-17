@@ -9,11 +9,13 @@
 # in the range of 0° to 360°. (Latitude is not negative anyway because the
 # dataset only covers the Northern hemisphere.)
 # IT IS VERY IMPORTANT TO HAVE A DECIMAL POINT IN THE NUMBER!
+# Also don’t use quote marks.
+#
 # These example values cover the British Isles:
-LON1 = '352.5'
-LON2 = '3.0'
-LAT1 = '49.5'
-LAT2 = '58.5'
+LON1 = 352.5
+LON2 = 3.0
+LAT1 = 49.5
+LAT2 = 58.5
 
 # Constant CO₂ value in ppm:
 CO2_CONSTANT = 340
