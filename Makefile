@@ -18,6 +18,7 @@ LON1 ?= 0.0
 LON2 ?= 360.0
 LAT1 ?= 0.0
 LAT2 ?= 90.0
+export LON1 LON2 LAT1 LAT2
 
 # ORIGINAL FILES
 insol_files   = $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
