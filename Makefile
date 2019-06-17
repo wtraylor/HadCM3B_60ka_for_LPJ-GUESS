@@ -27,7 +27,9 @@ wetdays_output = $(patsubst external_files/%,output/%,${wetdays_files})
 final_outputs = output/insolation.nc \
 								output/precipitation.nc \
 								output/temperature.nc \
-								output/wet_days.nc
+								output/wet_days.nc \
+								output/co2.txt \
+								output/gridlist.txt
 
 # Take the first temperature output file to create the gridlist. It could
 # be any file.
