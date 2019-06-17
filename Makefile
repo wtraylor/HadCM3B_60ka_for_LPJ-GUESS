@@ -36,7 +36,9 @@ gridlist_var = 'tas'  # NetCDF variable in $(gridlist_reference).
 
 .PHONY:default
 default : $(final_outputs)
-	@echo 'Done.'
+	@echo 'Exerything done.'
+	@echo 'Output files are here:'
+	@echo -e '\t$^' | sed 's/ /\n\t/g'
 
 .PHONY: clean
 clean :
