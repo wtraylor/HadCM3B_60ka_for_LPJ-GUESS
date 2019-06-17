@@ -19,3 +19,10 @@ LAT2 = 58.5
 
 # Constant CO₂ value in ppm:
 CO2_CONSTANT = 340
+
+# Define NetCDF file that shall be used to create gridlist.txt as well as
+# to define the square subregions. This should be the time with the lowest
+# sea level in your time series so that you get the maximum land area for
+# your simulation.
+gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
+gridlist_var = tas  # NetCDF variable in $(gridlist_reference).

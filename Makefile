@@ -40,9 +40,9 @@ final_outputs = output/insolation.nc \
 								output/gridlist.txt
 
 # Take the first temperature output file to create the gridlist. It could
-# be any file.
-gridlist_reference = $(shell echo $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
-gridlist_var = 'tas'  # NetCDF variable in $(gridlist_reference).
+# be any file. Only define it if user hasn’t done it in options.make.
+gridlist_reference ?= $(shell echo $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
+gridlist_var ?= tas  # NetCDF variable in $(gridlist_reference).
 
 .PHONY:default
 default : $(final_outputs)
