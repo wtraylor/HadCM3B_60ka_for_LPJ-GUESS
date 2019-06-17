@@ -26,3 +26,6 @@ CO2_CONSTANT = 340
 # your simulation.
 gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
 gridlist_var = tas  # NetCDF variable in $(gridlist_reference).
+
+# Edge length of one square with full time line.
+SQUARE_SIZE = 4

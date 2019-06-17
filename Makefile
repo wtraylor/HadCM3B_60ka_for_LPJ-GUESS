@@ -20,6 +20,10 @@ LAT1 ?= 0.0
 LAT2 ?= 90.0
 export LON1 LON2 LAT1 LAT2
 
+# If the user didn’t define a square size, we set the default.
+SQUARE_SIZE ?= 4
+export SQUARE_SIZE
+
 # ORIGINAL FILES
 insol_files   = $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
 precip_files  = $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
