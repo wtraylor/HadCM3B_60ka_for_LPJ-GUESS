@@ -62,21 +62,20 @@ output/gridlist.txt : $(gridlist_reference)
 crop_and_convert_time = \
 	@rm --force $@ ;\
 	if [ -z "$(LON1)" ] || [ -z "$(LON2)" ] || [ -z "$(LAT1)" ] || [ -z "$(LAT2)" ]; then \
-		echo -e '\tConverting time axis...' ;\
+		echo '$@: Converting time axis...' ;\
 		./months_to_days.py $< $@ ;\
 	else \
-		echo -e '\tCropping...' ;\
+		echo '$@: Cropping...' ;\
 		ncks --overwrite --dimension lon,$(LON1),$(LON2) --dimension lat,$(LAT1),$(LAT2) $< $@ ;\
-		echo -e '\tConverting time axis...' ;\
+		echo '$@: Converting time axis...' ;\
 		readonly TMP_FILE=$@$$$$.tmp; ./months_to_days.py $@ "$$TMP_FILE"; mv $$TMP_FILE $@ ;\
 	fi
 
 # Solar Radiation:
 output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	@echo 'Creating solar radiation file: $@'
 	$(crop_and_convert_time)
-	@echo -e '\tSetting metadata...'
+	@echo '$@: Setting metadata...'
 	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
@@ -85,15 +84,14 @@ output/regrid_downSol_Seaice_mm_s3_srf_%kyr.nc : external_files/regrid_downSol_S
 		--attribute 'missing_value,downSol_Seaice_mm_s3_srf,c,f,9.96921e+36' \
 		--attribute 'standard_name,downSol_Seaice_mm_s3_srf,o,c,surface_downwelling_shortwave_flux' \
 		--attribute 'units,downSol_Seaice_mm_s3_srf,o,c,W m-2' $@
-	@echo -e '\tSetting "time" as record dimension...'
+	@echo '$@: Setting "time" as record dimension...'
 	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Precipitation:
 output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	@echo 'Creating precipitation file: $@'
 	$(crop_and_convert_time)
-	@echo -e '\tSetting metadata...'
+	@echo '$@: Setting metadata...'
 	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
@@ -102,17 +100,16 @@ output/bias_regrid_pr_%kyr.nc : external_files/bias_regrid_pr_%kyr.nc options.ma
 		--attribute 'standard_name,pr,o,c,precipitation_amount' \
 		--attribute 'missing_value,pr,c,f,9.96921e+36' \
 		--attribute 'units,pr,o,c,kg m-2' $@
-	@echo -e '\tSetting "time" as record dimension...'
+	@echo '$@: Setting "time" as record dimension...'
 	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Temperature: convert °C to Kelvin
 output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	@echo 'Creating temperature file: $@'
 	$(crop_and_convert_time)
-	@echo -e '\tConverting °C to Kelvin...'
+	@echo '$@: Converting °C to Kelvin...'
 	@ncap2 --overwrite --script 'tas += 273.2' $@ $@
-	@echo -e '\tSetting metadata...'
+	@echo '$@: Setting metadata...'
 	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
@@ -121,15 +118,14 @@ output/bias_regrid_tas_%kyr.nc : external_files/bias_regrid_tas_%kyr.nc options.
 		--attribute 'standard_name,tas,o,c,air_temperature' \
 		--attribute 'missing_value,tas,c,f,9.96921e+36' \
 		--attribute 'units,tas,o,c,K' $@
-	@echo -e '\tSetting "time" as record dimension...'
+	@echo '$@: Setting "time" as record dimension...'
 	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Rainy/Wet Days:
 output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc options.make
 	@mkdir --parents --verbose $(shell dirname $@)
-	@echo 'Creating wet days file: $@'
 	$(crop_and_convert_time)
-	@echo -e '\tSetting metadata...'
+	@echo '$@: Setting metadata...'
 	@ncatted --overwrite \
 		--attribute 'units,time,o,c,days since 1-1-1' \
 		--attribute 'calendar,time,o,c,365_day' \
@@ -137,7 +133,7 @@ output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc opti
 		--attribute 'standard_name,lat,o,c,latitude' \
 		--attribute 'missing_value,rd3_mm_srf,c,f,9.96921e+36' \
 		--attribute 'standard_name,rd3_mm_srf,o,c,number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold' $@
-	@echo -e '\tSetting "time" as record dimension...'
+	@echo '$@: Setting "time" as record dimension...'
 	@ncks --overwrite --mk_rec_dmn time $@ $@
 
 # Create a CO₂ file covering the whole time span from 0 to 60,000 years.
