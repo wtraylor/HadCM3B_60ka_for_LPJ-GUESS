@@ -20,7 +20,7 @@ wetdays_files = $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
 
 co2_output     = $(patsubst external_files/bias_regrid_tas%.nc,output/co2%.txt,${temp_files})
 insol_output   = $(patsubst external_files/%,output/%,${insol_files})
-precip_output  = $(patsubst external_files/%,output/%,${insol_files})
+precip_output  = $(patsubst external_files/%,output/%,${precip_files})
 temp_output    = $(patsubst external_files/%,output/%,${temp_files})
 wetdays_output = $(patsubst external_files/%,output/%,${wetdays_files})
 
