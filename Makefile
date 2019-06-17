@@ -43,9 +43,9 @@ clean :
 	@echo 'Deleting temporary files in output folder...'
 	@rm --verbose --force output/*.tmp
 	@echo 'Regular output files:'
-	@ls output/*.nc 2>/dev/null && \
+	@ls output/*.nc output/gridlist.txt output/co2.txt 2>/dev/null ; \
 	read -p 'Delete the files? [y|n]' -rs -n1 && \
-	test "$$REPLY" == 'y' && rm --verbose --force output/*.nc || \
+	test "$$REPLY" == 'y' && rm --verbose --force output/*.nc  output/gridlist.txt output/co2.txt || \
 	exit 0
 	@echo 'Done.'
 
