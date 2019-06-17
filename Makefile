@@ -12,6 +12,13 @@ SHELL=bash
 # Import user-defined variables.
 include options.make
 
+# If the user didn’t define a region, the area of the whole dataset is
+# taken.
+LON1 ?= 0.0
+LON2 ?= 360.0
+LAT1 ?= 0.0
+LAT2 ?= 90.0
+
 # ORIGINAL FILES
 insol_files   = $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
 precip_files  = $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
@@ -60,12 +67,12 @@ output/gridlist.txt : $(gridlist_reference)
 
 # Generic function for cropping (hyperslabbing) the file by the coordinates
 # given in options.make.
-# - If not all coordinates are given, cropping is skipped.
+# - If coordinates cover the whole dataset, cropping is skipped.
 # - For months_to_days.py we need to create a temporary file because Python
 #   XArray cannot write into the file it has currently opened.
 crop_and_convert_time = \
 	@rm --force $@ ;\
-	if [ -z "$(LON1)" ] || [ -z "$(LON2)" ] || [ -z "$(LAT1)" ] || [ -z "$(LAT2)" ]; then \
+	if [ "$(LON1)" == "0.0" ] && [ "$(LON2)" == "360.0" ] && [ "$(LAT1)" == "0.0" ] && [ "$(LAT2)" == "90.0" ]; then \
 		echo '$@: Converting time axis...' ;\
 		./months_to_days.py $< $@ ;\
 	else \
