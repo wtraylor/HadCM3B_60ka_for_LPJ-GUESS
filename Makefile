@@ -56,7 +56,7 @@ clean :
 output/gridlist.txt : $(gridlist_reference)
 	@echo 'Creating gridlist file: $@'
 	@rm --force $@
-	./create_gridlist.sh "$<" $(gridlist_var) $@
+	@./create_gridlist.sh "$<" $(gridlist_var) $@
 
 # Generic function for cropping (hyperslabbing) the file by the coordinates
 # given in options.make.
