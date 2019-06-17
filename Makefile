@@ -142,8 +142,7 @@ output/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc opti
 
 # Create a CO₂ file covering the whole time span from 0 to 60,000 years.
 output/co2.txt :
-	@echo "Creating CO₂ file with constant value $(CO2_CONSTANT) ppm: "
-	@echo $@
+	@echo "Creating CO₂ file with constant value $(CO2_CONSTANT) ppm: $@"
 	@rm --force $@
 	@for year in $$(seq 60000); do \
 		echo -e "$$year\t$(CO2_CONSTANT)" >> $@ ; \
