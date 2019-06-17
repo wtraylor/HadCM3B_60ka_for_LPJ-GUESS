@@ -47,6 +47,7 @@ final_outputs = output/insolation.nc \
 # be any file. Only define it if user hasn’t done it in options.make.
 gridlist_reference ?= $(shell echo $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
 gridlist_var ?= tas  # NetCDF variable in $(gridlist_reference).
+export gridlist_reference gridlist_var
 
 .PHONY:default
 default : $(final_outputs)
