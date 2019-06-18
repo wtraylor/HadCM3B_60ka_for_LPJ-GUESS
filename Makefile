@@ -90,6 +90,13 @@ output/co2.txt :
 # Call the “secondary” Makefile with the coordinates (LON1, LON2, LAT1,
 # LAT2) of the square subregion that is to be built. The coordinates are
 # extracted from the path name of the target ($@).
+#
+# All calls to `create_square.make` are completely independent of each
+# other and can thus be parallelized. Even when the same square subregion
+# is being handled at the same time, the files are distinct because each
+# call is only for one variable (temperature, insolation, etc.). Within
+# each call to `create_square.make` there are many tasks that can be
+# parallelized, that’s what the `SUB_JOBS` variable is for.
 create_square_output = @mkdir --parents --verbose $(shell dirname $@) && \
 					   make --no-print-directory \
 					   --makefile=create_square.make \
