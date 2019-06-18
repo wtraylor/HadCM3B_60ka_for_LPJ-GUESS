@@ -45,7 +45,7 @@ get_dim_count() {
 
 if [ ! "$#" -eq 3 ]; then
   echo 'Argument count not equal 3.' >&2
-  echo 'create_gridlist.sh <in.nc> <out.nc> <gridlist.txt>'
+  echo 'create_gridlist.sh <in.nc> <variable> <gridlist.txt>'
   exit 1
 fi
 
