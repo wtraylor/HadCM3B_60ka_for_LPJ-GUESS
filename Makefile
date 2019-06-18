@@ -96,11 +96,16 @@ output/co2.txt :
 # is being handled at the same time, the files are distinct because each
 # call is only for one variable (temperature, insolation, etc.). Within
 # each call to `create_square.make` there are many tasks that can be
-# parallelized, that’s what the `SUB_JOBS` variable is for.
-create_square_output = @mkdir --parents --verbose $(shell dirname $@) && \
-					   make --no-print-directory \
+# parallelized. By using $(MAKE) the --jobs flag from the user call will be
+# passed on to the subordinate `create_square.make`.
+#
+# We use $(MAKE) and the '+' sign to call the other Makefile to avoid
+# issues with parallel # jobs.
+# https://www.gnu.org/software/make/manual/html_node/MAKE-Variable.html
+#
+create_square_output = @+mkdir --parents --verbose $(shell dirname $@) && \
+					   $(MAKE) --no-print-directory \
 					   --makefile=create_square.make \
-					   --jobs="$(SUB_JOBS)" \
 					   $@ \
 					   $(shell ./extract_square_coords.sh $@)
 
