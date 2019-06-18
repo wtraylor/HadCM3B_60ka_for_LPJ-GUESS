@@ -16,8 +16,10 @@ indent_size = 4
 
 [Makefile]
 indent_style = tab
+indent_size = 4
 [*.make]
 indent_style = tab
+indent_size = 4
 
 [*.{yml,yaml}]
 indent_style = space
