@@ -20,6 +20,8 @@ precip_output  = $(patsubst external_files/%,$(TMP_DIR)/%,${precip_files})
 temp_output    = $(patsubst external_files/%,$(TMP_DIR)/%,${temp_files})
 wetdays_output = $(patsubst external_files/%,$(TMP_DIR)/%,${wetdays_files})
 
+this_gridlist_reference = $(TMP_DIR)/gridlist_reference.nc
+
 .PHONY: default
 default : $(OUTPUT_FILES)
 	@echo 'Square subregion done: $(OUT_DIR)'
@@ -133,3 +135,19 @@ $(OUT_DIR)/wet_days.nc : $(wetdays_output)
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
+
+# Crop the original gridlist reference to the this square subregion and
+# only take the first month of the file.
+$(this_gridlist_reference) : $(gridlist_reference)
+	@mkdir --parents --verbose $(shell dirname $@)
+	@echo '$@: Cropping...'
+	@ncks --overwrite \
+		--dimension lon,$(LON1),$(LON2) \
+		--dimension lat,$(LAT1),$(LAT2) \
+		--dimension time,0 \
+		$< $@
+
+$(OUT_DIR)/gridlist.txt : $(this_gridlist_reference)
+	@mkdir --parents --verbose $(shell dirname $@)
+	@echo 'Creating gridlist file: $@'
+	@./create_gridlist.sh $< $(gridlist_var) $@

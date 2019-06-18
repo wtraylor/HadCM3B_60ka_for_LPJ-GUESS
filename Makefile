@@ -37,7 +37,7 @@ export insol_files precip_files temp_files wetdays_files
 
 # Take the first temperature output file to create the gridlist. It could
 # be any file. Only define it if user hasn’t done it in options.make.
-gridlist_reference ?= $(shell echo $(patsubst external_files/%,output/%,${temp_files}) | cut -d' ' -f1)
+gridlist_reference ?= $(shell echo $(temp_files) | cut -d' ' -f1)
 gridlist_var ?= tas  # NetCDF variable in $(gridlist_reference).
 export gridlist_reference gridlist_var
 
@@ -51,17 +51,18 @@ square_dirs = $(shell \
 			  ./get_square_dirs.sh)
 
 # Paths of all the output files in each square subregion.
+all_gridlist_output = $(patsubst %,output/%/gridlist.txt,$(square_dirs))
 all_insol_output = $(patsubst %,output/%/insolation.nc,$(square_dirs))
 all_precip_output = $(patsubst %,output/%/precipitation.nc,$(square_dirs))
 all_temp_output = $(patsubst %,output/%/temperature.nc,$(square_dirs))
 all_wetdays_output = $(patsubst %,output/%/wet_days.nc,$(square_dirs))
 
-all_output_files = $(all_insol_output) \
+all_output_files = $(all_gridlist_output) \
+				   $(all_insol_output) \
 				   $(all_precip_output) \
 				   $(all_temp_output) \
 				   $(all_wetdays_output) \
-				   output/co2.txt \
-				   output/gridlist.txt
+				   output/co2.txt
 
 .PHONY:default
 default : $(all_output_files)
@@ -77,11 +78,6 @@ clean :
 	test "$$REPLY" == 'y' && rm --verbose --force output/*.nc  output/gridlist.txt output/co2.txt || \
 	exit 0
 	@echo 'Done.'
-
-output/gridlist.txt : $(gridlist_reference)
-	@echo 'Creating gridlist file: $@'
-	@rm --force $@
-	@./create_gridlist.sh "$<" $(gridlist_var) $@
 
 # Create a CO₂ file covering the whole time span from 0 to 60,000 years.
 output/co2.txt :
@@ -100,6 +96,11 @@ create_square_output = @mkdir --parents --verbose $(shell dirname $@) && \
 					   --jobs="$(SUB_JOBS)" \
 					   $@ \
 					   $(shell ./extract_square_coords.sh $@)
+
+$(all_gridlist_output) : $(gridlist_reference) options.make
+	$(create_square_output) \
+		gridlist_reference=$(gridlist_reference) \
+		gridlist_var=$(gridlist_var)
 
 $(all_insol_output) : $(insol_files) options.make
 	$(create_square_output)
