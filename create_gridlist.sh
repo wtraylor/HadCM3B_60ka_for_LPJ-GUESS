@@ -2,8 +2,11 @@
 # Create an index gridlist for LPJ-GUESS from a NetCDF file.
 # Note that the cf_gridlist in LPJ-GUESS just takes indices, not actual
 # longitude and latitude.
-
+#
 # Author: Wolfgang Traylor (wolfgang.traylor@senckenberg.de)
+#
+# Usage:
+#   create_gridlist.sh <in.nc> <variable> <gridlist.txt>
 
 set -o errexit
 
@@ -57,6 +60,9 @@ fi
 
 readonly lat_count=$(get_dim_count 'lat')
 readonly lon_count=$(get_dim_count 'lon')
+
+# Delete output file to have a clean slate to append to.
+rm --force "$out_file"
 
 # Simply combine all longitudes with all latitudes.
 for lat in $(seq 0 $(($lat_count - 1))); do
