@@ -3,7 +3,14 @@
 # subregion from the path given as argument.
 # We assume this pattern: "...output/<LON1>_<LON2>_<LAT1>_<LAT2>/..."
 #
-# extract_square_coords.sh <path>
+# The output (stdout) is in the form of assignments for environment
+# variables to be passed to `make`, e.g.:
+#   "LON1=0.25 LON2=5.25 LAT1=54.0 LAT2=58.0"
+#
+# Author: Wolfgang Traylor (wolfgang.traylor@senckenberg.de)
+#
+# Usage:
+#   extract_square_coords.sh <path>
 
 readonly str=$(echo "$1" | grep -Po '(?<=output/)\d.*_.*_.*_.*\d(?=/)')
 
