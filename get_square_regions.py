@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 #
 # Calculate longitude and latitude of small square subregions that make up
-# the user-defined region given by environment variables "
+# the user-defined region given by environment variables LON1, LON2, LAT1,
+# LAT2.
 #
 # Author: Wolfgang Traylor (wolfgang.traylor@senckenberg.de)
 
