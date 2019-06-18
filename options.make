@@ -29,3 +29,7 @@ gridlist_var = tas  # NetCDF variable in $(gridlist_reference).
 
 # Edge length of one square with full time line.
 SQUARE_SIZE = 4
+
+# Define how many parallel jobs shall be executed for creating each square
+# subregion.
+SUB_JOBS = 4
