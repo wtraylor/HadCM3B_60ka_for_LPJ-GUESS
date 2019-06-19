@@ -54,7 +54,7 @@ square_dirs = $(shell \
 			  LON2=$(LON2)\
 			  LAT1=$(LAT1)\
 			  LAT2=$(LAT2)\
-			  ./get_square_dirs.sh)
+			  ./get_square_regions.py | ./get_square_dirs.sh)
 
 # Paths of all the output files in each square subregion.
 all_gridlist_output = $(patsubst %,output/%/gridlist.txt,$(square_dirs))
