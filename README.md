@@ -48,10 +48,15 @@ You can define the size of each square in degrees or disable the splitting in `o
 Repository Structure
 --------------------
 
+- `MD5.txt`: MD5 checksums for files in `external_files/`.
 - `Makefile`: Contains all top-level execution logic. Call it with the `make` command.
 - `create_gridlist.sh`: Helper script to create the `gridlist.txt` file. Don’t call this directly, `make` does that.
+- `create_square.make`: Helper Makefile called by `Makefile` automatically.
 - `environment.yml`: Anaconda environment file.
 - `external_files/`: Original input files. See section “Include Original Files”.
+- `extract_square_coords.sh`: Helper script to set environment variables for square coordinates.
+- `get_square_dirs.sh`: Helper script to compose output of `get_square_regions.py` to directory names in `output/`.
+- `get_square_regions.py`: Helper script to define square subregions.
 - `months_to_days.py`: Helper script to convert time unit from “months since” to “days since”. Don’t call this directly.
 - `options.make`: User-defined options in `Makefile` syntax.
 - `output/`: Will be created automatically and contains the final output files. Each square subregion has its own subfolder, which is named by the coordinates of the edges of the square like: `<east>_<west>_<south>_<north>`, in degrees (0°–360° E and 0°–90° N). Each square subregion folder will contain the output files `temperature.nc`, `precipitation.nc`, `wet_days.nc`, `insolation.nc`, and `gridlist.txt`.
