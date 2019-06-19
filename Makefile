@@ -72,6 +72,8 @@ all_output_files = $(all_gridlist_output) \
 
 .PHONY:default
 default : $(all_output_files)
+	@echo 'Deleting temporary files in "output/" folder...'
+	@find 'output/' -name '*.tmp' -delete -print | sed 's;^;removed ;g'
 	@echo 'Everything done.'
 
 .PHONY: clean
