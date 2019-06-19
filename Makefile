@@ -35,10 +35,10 @@ export SQUARE_SIZE
 SUB_JOBS ?= 4
 
 # ORIGINAL FILES
-insol_files   = $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
-precip_files  = $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
-temp_files    = $(shell ls external_files/bias_regrid_tas_*kyr.nc 2>/dev/null)
-wetdays_files = $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
+insol_files   := $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
+precip_files  := $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
+temp_files    := $(shell ls external_files/bias_regrid_tas_*kyr.nc 2>/dev/null)
+wetdays_files := $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
 export insol_files precip_files temp_files wetdays_files
 
 # Take the first temperature output file to create the gridlist. It could
@@ -57,18 +57,18 @@ square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
 	./get_square_regions.py | ./get_square_dirs.sh)
 
 # Paths of all the output files in each square subregion.
-all_gridlist_output = $(patsubst %,output/%/gridlist.txt,$(square_dirs))
-all_insol_output = $(patsubst %,output/%/insolation.nc,$(square_dirs))
-all_precip_output = $(patsubst %,output/%/precipitation.nc,$(square_dirs))
-all_temp_output = $(patsubst %,output/%/temperature.nc,$(square_dirs))
-all_wetdays_output = $(patsubst %,output/%/wet_days.nc,$(square_dirs))
+all_gridlist_output := $(patsubst %,output/%/gridlist.txt,$(square_dirs))
+all_insol_output    := $(patsubst %,output/%/insolation.nc,$(square_dirs))
+all_precip_output   := $(patsubst %,output/%/precipitation.nc,$(square_dirs))
+all_temp_output     := $(patsubst %,output/%/temperature.nc,$(square_dirs))
+all_wetdays_output  := $(patsubst %,output/%/wet_days.nc,$(square_dirs))
 
-all_output_files = $(all_gridlist_output) \
-				   $(all_insol_output) \
-				   $(all_precip_output) \
-				   $(all_temp_output) \
-				   $(all_wetdays_output) \
-				   output/co2.txt
+all_output_files := $(all_gridlist_output) \
+	$(all_insol_output) \
+	$(all_precip_output) \
+	$(all_temp_output) \
+	$(all_wetdays_output) \
+	output/co2.txt
 
 .PHONY:default
 default : $(all_output_files)
