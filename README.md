@@ -50,6 +50,7 @@ Repository Structure
 
 - `Makefile`: Contains all top-level execution logic. Call it with the `make` command.
 - `create_gridlist.sh`: Helper script to create the `gridlist.txt` file. Don’t call this directly, `make` does that.
+- `environment.yml`: Anaconda environment file.
 - `external_files/`: Original input files. See section “Include Original Files”.
 - `months_to_days.py`: Helper script to convert time unit from “months since” to “days since”. Don’t call this directly.
 - `options.make`: User-defined options in `Makefile` syntax.
