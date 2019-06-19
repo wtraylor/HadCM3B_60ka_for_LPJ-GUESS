@@ -14,10 +14,10 @@
 # Also don’t use quote marks.
 #
 # These example values cover the British Isles:
-LON1 = 10
-LON2 = 50
-LAT1 = 49.5
-LAT2 = 58.5
+LON1 = 200.0
+LON2 = 270.0
+LAT1 = 20.0
+LAT2 = 90.0
 
 # Constant CO₂ value in ppm:
 CO2_CONSTANT = 340
