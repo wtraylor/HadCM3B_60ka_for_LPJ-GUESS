@@ -116,25 +116,32 @@ $(TMP_DIR)/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc 
 concatenate_along_time = @echo $^ | sed 's/ /\n/g' | sort --reverse | \
 						 xargs ncrcat --overwrite --output $@
 
+reorder_dimensions = @echo 'Reordering dimensions: $@' ;\
+	ncpdq --overwrite --reorder 'lon,lat,time' $@ $@
+
 $(OUT_DIR)/insolation.nc : $(insol_output)
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
+	$(reorder_dimensions)
 
 $(OUT_DIR)/precipitation.nc : $(precip_output)
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
+	$(reorder_dimensions)
 
 $(OUT_DIR)/temperature.nc : $(temp_output)
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
+	$(reorder_dimensions)
 
 $(OUT_DIR)/wet_days.nc : $(wetdays_output)
 	@mkdir --parents --verbose $(shell dirname $@)
 	@echo -e 'Concatenating along time axis: $@'
 	$(concatenate_along_time)
+	$(reorder_dimensions)
 
 # Crop the original gridlist reference to the this square subregion and
 # only take the first month of the file.

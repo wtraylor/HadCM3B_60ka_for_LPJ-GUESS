@@ -34,6 +34,7 @@ Changes Made to the Original
 - Crop to the region specified in `options.make` (optional).
 - Create attribute `missing_value`, which is deprecated, but recognized by LPJ-GUESS. It has the same value as `_FillValue`. Compare the [NCO reference](http://nco.sourceforge.net/nco.html#Missing-Values).
 - Concatenate full timeline.
+- Reorder dimensions from `time,lon,lat` to `lon,lat,time`. This way LPJ-GUESS can access the values for each grid cell along the time axis faster.
 
 ### Square Subregions
 To concatenate the whole Northern hemisphere over 60,000 years would yield insanely large NetCDF output files, and consecutively very large LPJ-GUESS output files. To keep the files in a manageable size, the output is split into “square subregions.” Each square NetCDF file contains the full timeline and can be used as input for a transient simulation run in LPJ-GUESS.
