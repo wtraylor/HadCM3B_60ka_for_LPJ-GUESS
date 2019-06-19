@@ -22,14 +22,14 @@ Changes Made to the Original
 ----------------------------
 
 - Change attributes & convert units:
-	- Convert temperature from °C to Kelvin: standard name `air_temperature` and unit `K`.
-	- Downwelling radiation: Set unit to `W m-2` and standard name to `surface_downwelling_shortwave_flux`. Though there’s no unit given in the original NetCDF file, we assume that it is in W/m².
-	- Rainy days: Set standard name to `number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold`. The unit is irrelevant.
-	- Precipitation: Set standard name to `precipitation_amount` and unit to `kg m-2`, which is equivalent to the original unit `mm/day`.
+    - Convert temperature from °C to Kelvin: standard name `air_temperature` and unit `K`.
+    - Downwelling radiation: Set unit to `W m-2` and standard name to `surface_downwelling_shortwave_flux`. Though there’s no unit given in the original NetCDF file, we assume that it is in W/m².
+    - Rainy days: Set standard name to `number_of_days_with_lwe_thickness_of_precipitation_amount_above_threshold`. The unit is irrelevant.
+    - Precipitation: Set standard name to `precipitation_amount` and unit to `kg m-2`, which is equivalent to the original unit `mm/day`.
 - Adjust the time:
-	- In the original, there is no time unit. Each datum is one month.
-	- NetCDF commands and LPJ-GUESS struggle with large negative year numbers.
-	- We define the time unit first as "months since 1-1-15" and then convert the time values to "days since 1-1-15" because LPJ-GUESS cannot handle the "months since" format.
+    - In the original, there is no time unit. Each datum is one month.
+    - NetCDF commands and LPJ-GUESS struggle with large negative year numbers.
+    - We define the time unit first as "months since 1-1-15" and then convert the time values to "days since 1-1-15" because LPJ-GUESS cannot handle the "months since" format.
     - Year 1 is the first year of the HadCM3B simulation, that is the calendar year 60,000 BP. So the output files will show dates in the time dimension from year 1 to 60,000.
 - Crop to the region specified in `options.make` (optional).
 - Create attribute `missing_value`, which is deprecated, but recognized by LPJ-GUESS. It has the same value as `_FillValue`. Compare the [NCO reference](http://nco.sourceforge.net/nco.html#Missing-Values).
