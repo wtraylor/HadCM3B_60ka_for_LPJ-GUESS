@@ -42,7 +42,7 @@ With many separate LPJ-GUESS simulations comes the additional advantage of flexi
 
 The `gridlist.txt` for each subregion contains only grid cells that have a valid value in the first month of the `gridlist_reference` file specified in `options.make`. Ocean grid cells are thus not included in `gridlist.txt`. However, the directory for square subregions that cover no valid land grid cells are still created in the `output/` folder! So be aware of that when scheduling your simulation jobs. One easy way to see how many valid grid cells are in a square subregion is by counting the lines in `gridlist.txt`: `wc -l gridlist.txt`. To get an overview of the amount of _all_ grid cells you can use this command: `find output/ -name 'gridlist.txt' | xargs wc -l`.
 
-You can define the size of each square in degrees in `options.make`. If
+You can define the size of each square in degrees or disable the splitting in `options.make`.
 
 Repository Structure
 --------------------

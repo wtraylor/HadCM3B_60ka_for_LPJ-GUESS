@@ -27,7 +27,13 @@ CO2_CONSTANT = 340
 gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
 gridlist_var = tas  # NetCDF variable in $(gridlist_reference).
 
-# Edge length of one square with full time line.
+# Edge length of one square with full time line, in degrees.
+# A value of 4 will yield squares of size 4°x4°, which will (likely) create
+# squares with 8x8 = 16 grid cells each. (But note that this depends on how
+# the grid cells lie in the region defined by LON1/LON2/LAT1/LAT2. It can
+# also be 8x9 or 9x9 grid cells.)
+# If you don’t want your output be split into squares, use a square size of
+# 360° or higher.
 SQUARE_SIZE = 4
 
 # Define how many parallel jobs shall be executed for creating each square
