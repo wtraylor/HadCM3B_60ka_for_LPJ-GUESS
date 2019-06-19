@@ -1,4 +1,6 @@
 # USER OPTIONS
+#
+# This file is in Makefile syntax.
 
 # Boundary box for the region that is cut out: Remove the hash comment
 # signs to activate cropping.
@@ -12,8 +14,8 @@
 # Also don’t use quote marks.
 #
 # These example values cover the British Isles:
-LON1 = 352.5
-LON2 = 3.0
+LON1 = 10
+LON2 = 50
 LAT1 = 49.5
 LAT2 = 58.5
 
