@@ -9,6 +9,12 @@ SHELL=bash
 # return status:
 .DELETE_ON_ERROR:
 
+# When running very many parallel jobs, Python will fail to import numpy.
+# This is because too many threads run in parallel. The easy solution is to
+# set the OPENBLAS_NUM_THREADS variable.
+# Further explanations: https://stackoverflow.com/a/51257384
+export OPENBLAS_NUM_THREADS=1
+
 # Import user-defined variables.
 include options.make
 
