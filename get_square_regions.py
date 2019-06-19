@@ -29,11 +29,11 @@ lat_bounds = [float(os.environ['LAT1']), float(os.environ['LAT2'])]
 # so that the second longitude is always bigger than the first.
 if lon_bounds[0] > lon_bounds[1]:
     lon_bounds[1] += 360
-assert lon_bounds[0] > 0.0 and lon_bounds[0] < 360.0
-assert lon_bounds[1] > 0.0 and lon_bounds[1] < 2*360.0
+assert lon_bounds[0] >= 0.0 and lon_bounds[0] <= 360.0
+assert lon_bounds[1] >= 0.0 and lon_bounds[1] <= 2*360.0
 assert lon_bounds[0] < lon_bounds[1]
-assert lat_bounds[0] > 0.0 and lat_bounds[0] < 90.0
-assert lat_bounds[1] > 0.0 and lat_bounds[1] < 90.0
+assert lat_bounds[0] >= 0.0 and lat_bounds[0] <= 90.0
+assert lat_bounds[1] >= 0.0 and lat_bounds[1] <= 90.0
 assert lat_bounds[0] < lat_bounds[1]
 
 # We assume here that longitude is still in the original 0/360° format.
