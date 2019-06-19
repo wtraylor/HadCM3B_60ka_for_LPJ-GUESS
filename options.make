@@ -27,7 +27,8 @@ CO2_CONSTANT = 340
 # sea level in your time series so that you get the maximum land area for
 # your simulation.
 gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
-gridlist_var = tas  # NetCDF variable in $(gridlist_reference).
+# NetCDF variable in $(gridlist_reference).
+gridlist_var = tas
 
 # Edge length of one square with full time line, in degrees.
 # A value of 4 will yield squares of size 4°x4°, which will (likely) create
