@@ -68,7 +68,8 @@ all_output_files := $(all_gridlist_output) \
 	$(all_precip_output) \
 	$(all_temp_output) \
 	$(all_wetdays_output) \
-	output/co2.txt
+	output/co2.txt \
+	output/square_regions.png
 
 .PHONY:default
 default : $(all_output_files)
@@ -138,3 +139,8 @@ $(all_temp_output) : $(temp_files) options.make
 
 $(all_wetdays_output) : $(wetdays_files) options.make
 	$(create_square_output)
+
+
+output/square_regions.png : options.make
+	@echo "Plotting map of square subregions: $@"
+	@./get_square_regions.py | ./plot_squares.R $@

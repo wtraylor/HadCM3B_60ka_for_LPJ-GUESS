@@ -60,6 +60,7 @@ Repository Structure
 - `months_to_days.py`: Helper script to convert time unit from “months since” to “days since”. Don’t call this directly.
 - `options.make`: User-defined options in `Makefile` syntax.
 - `output/`: Will be created automatically and contains the final output files. Each square subregion has its own subfolder, which is named by the coordinates of the edges of the square like: `<east>_<west>_<south>_<north>`, in degrees (0°–360° E and 0°–90° N). Each square subregion folder will contain the output files `temperature.nc`, `precipitation.nc`, `wet_days.nc`, `insolation.nc`, and `gridlist.txt`.
+- `plot_squares.R`: Script for creating a map of the square subregions in `output/square_regions.png`.
 - `tmp/`: Subfolder for intermediate files.
 
 Usage
