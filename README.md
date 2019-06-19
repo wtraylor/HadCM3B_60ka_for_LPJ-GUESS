@@ -33,6 +33,16 @@ Changes Made to the Original
     - Year 1 is the first year of the HadCM3B simulation, that is the calendar year 60,000 BP. So the output files will show dates in the time dimension from year 1 to 60,000.
 - Crop to the region specified in `options.make` (optional).
 - Create attribute `missing_value`, which is deprecated, but recognized by LPJ-GUESS. It has the same value as `_FillValue`. Compare the [NCO reference](http://nco.sourceforge.net/nco.html#Missing-Values).
+- Concatenate full timeline.
+
+### Square Subregions
+To concatenate the whole Northern hemisphere over 60,000 years would yield insanely large NetCDF output files, and consecutively very large LPJ-GUESS output files. To keep the files in a manageable size, the output is split into “square subregions.” Each square NetCDF file contains the full timeline and can be used as input for a transient simulation run in LPJ-GUESS.
+
+With many separate LPJ-GUESS simulations comes the additional advantage of flexibility in scheduling the jobs. A simulation of _one square_ will allow an estimate of the time and resource consumption necessary for _one grid cell,_ from which you can derive the requirements for the simulating the _whole dataset._ And the simulation jobs for each square can the be scheduled as the resources permit.
+
+The `gridlist.txt` for each subregion contains only grid cells that have a valid value in the first month of the `gridlist_reference` file specified in `options.make`. Ocean grid cells are thus not included in `gridlist.txt`. However, the directory for square subregions that cover no valid land grid cells are still created in the `output/` folder! So be aware of that when scheduling your simulation jobs. One easy way to see how many valid grid cells are in a square subregion is by counting the lines in `gridlist.txt`: `wc -l gridlist.txt`. To get an overview of the amount of _all_ grid cells you can use this command: `find output/ -name 'gridlist.txt' | xargs wc -l`.
+
+You can define the size of each square in degrees in `options.make`. If
 
 Repository Structure
 --------------------
@@ -42,7 +52,8 @@ Repository Structure
 - `external_files/`: Original input files. See section “Include Original Files”.
 - `months_to_days.py`: Helper script to convert time unit from “months since” to “days since”. Don’t call this directly.
 - `options.make`: User-defined options in `Makefile` syntax.
-- `output/`: Will be created automatically and contains the output files. (If you have limited space on your local hard drive, you can mount or symlink a folder from another drive here, overriding the default `output/` folder. Do this before calling `make`.)
+- `output/`: Will be created automatically and contains the final output files. Each square subregion has its own subfolder, which is named by the coordinates of the edges of the square like: `<east>_<west>_<south>_<north>`, in degrees (0°–360° E and 0°–90° N). Each square subregion folder will contain the output files `temperature.nc`, `precipitation.nc`, `wet_days.nc`, `insolation.nc`, and `gridlist.txt`.
+- `tmp/`: Subfolder for intermediate files.
 
 Usage
 -----
@@ -62,6 +73,9 @@ The downloaded files are expected in a subdirectory `external_files` under the r
 For each of the original NetCDF files one output file is created.
 So if you don’t want to include the whole time series, you put only those files into `external_files` that you are interested in having prepared for LPJ-GUESS.
 
+### Limited Diskspace
+The intermediary files in `tmp/` and the output files in `output/` might take up a lot of diskspace. If you have limited space on your local hard drive, you can mount or symlink the `output/` and the `tmp/` from another drive here, overriding the automatically created folders. Do this before calling `make`.
+
 ### Options
 Manipulate the file `options.make` with a text editor according to your needs.
 Instructions are in that file.
@@ -69,8 +83,8 @@ Instructions are in that file.
 ### Run Make
 Open a terminal in the root directory of this repository, where the `Makefile` lies.
 
-- Execute `make` to run the script. If you have a multi-core machine, you can gain speed by running parallel jobs with the `-j/--jobs` flag, e.g.: `make --jobs=5`.
-- Execute `make clean` to remove files from the `output` folder. You can also just delete the `output` folder manually.
+- Execute `make` to run the script. If you have a multi-core machine, you can gain speed by running parallel jobs with the `-j/--jobs` flag, e.g.: `make --jobs=5`. Check the output of `lscpu` to see how many CPU cores your machine has.
+- Execute `make clean` to remove files from the `tmp` and `output` folders. You will be asked for confirmation to delete the final output files. Of course, you can also just delete the folders manually.
 
 To Do
 -----
@@ -78,5 +92,4 @@ To Do
 - Re-order dimensions for LPJ-GUESS with `ncpdq --re-order 'lon,lat,time' in.nc out.nc`.
 - Get CO₂ timeline.
 - Decide for a license.
-- Include checksums.
 - Prepare a LPJ-GUESS instructions file as a template.

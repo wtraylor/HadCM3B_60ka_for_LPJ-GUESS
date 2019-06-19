@@ -9,11 +9,27 @@
 # in the range of 0° to 360°. (Latitude is not negative anyway because the
 # dataset only covers the Northern hemisphere.)
 # IT IS VERY IMPORTANT TO HAVE A DECIMAL POINT IN THE NUMBER!
+# Also don’t use quote marks.
+#
 # These example values cover the British Isles:
-LON1 = '352.5'
-LON2 = '3.0'
-LAT1 = '49.5'
-LAT2 = '58.5'
+LON1 = 352.5
+LON2 = 3.0
+LAT1 = 49.5
+LAT2 = 58.5
 
 # Constant CO₂ value in ppm:
 CO2_CONSTANT = 340
+
+# Define NetCDF file that shall be used to create gridlist.txt as well as
+# to define the square subregions. This should be the time with the lowest
+# sea level in your time series so that you get the maximum land area for
+# your simulation.
+gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
+gridlist_var = tas  # NetCDF variable in $(gridlist_reference).
+
+# Edge length of one square with full time line.
+SQUARE_SIZE = 4
+
+# Define how many parallel jobs shall be executed for creating each square
+# subregion.
+SUB_JOBS = 4
