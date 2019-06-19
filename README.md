@@ -85,3 +85,8 @@ Open a terminal in the root directory of this repository, where the `Makefile` l
 
 - Execute `make` to run the script. If you have a multi-core machine, you can gain speed by running parallel jobs with the `-j/--jobs` flag, e.g.: `make --jobs=5`. Check the output of `lscpu` to see how many CPU cores your machine has.
 - Execute `make clean` to remove files from the `tmp` and `output` folders. You will be asked for confirmation to delete the final output files. Of course, you can also just delete the folders manually.
+
+License
+-------
+
+To be decided.
