@@ -52,6 +52,15 @@ regions.map <- ggplot() +
     fill = NA
     ) +
   coord_fixed(xlim = lon_bounds, ylim = lat_bounds) +
-  labs(x = "Longitude", y = "Latitude")
+  labs(x = "Longitude",
+    y = "Latitude",
+    title = "Preview of Square Subregions",
+    caption = paste0(
+      "Square size: ", Sys.getenv("SQUARE_SIZE"), "°\n",
+      "East–West: ", lon_bounds[1], "°E to ", lon_bounds[2], "°E\n",
+      "South–North: ", lat_bounds[1], "°N to ", lat_bounds[2], "°N\n",
+      "Coastlines are modern."
+    )
+  )
 
 ggsave(args[1], regions.map)
