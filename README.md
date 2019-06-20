@@ -47,6 +47,8 @@ One easy way to see how many valid grid cells are in a square subregion is by co
 
 You can define the size of each square in degrees or disable the splitting in `options.make`.
 
+To preview how your region would be split into square subregions call `make output/square_regions.png`. The created map has modern coastlines, though.
+
 Repository Structure
 --------------------
 
