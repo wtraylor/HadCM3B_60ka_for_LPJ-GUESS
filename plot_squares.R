@@ -26,7 +26,7 @@ lon_bounds = as.numeric(c(Sys.getenv("LON1"), Sys.getenv("LON2")))
 lat_bounds = as.numeric(c(Sys.getenv("LAT1"), Sys.getenv("LAT2")))
 
 squares.db <- read.csv(file = "stdin", header = FALSE, sep = " ")
-names(squares.db) <- c("east", "west", "south", "north")
+names(squares.db) <- c("id", "east", "west", "south", "north")
 
 pacific_centered <- (lon_bounds[1] < 180 && lon_bounds[2] > 180)
 

@@ -52,6 +52,10 @@ export gridlist_reference gridlist_var
 # also a rule to make that target, but we need the `square_dirs` variable
 # BEFORE any rule are executed, so we have duplicate instructions here. But
 # the goal is to calculate the regions only once.
+get_square_list := \
+	./get_square_regions.py  | \
+	./filter_squares.sh | \
+	nl --number-width=4 --number-format='rz' --number-separator=' '
 square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
 	export SQUARE_SIZE=$(SQUARE_SIZE) \
 	LON1=$(LON1)\
@@ -60,8 +64,7 @@ square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
 	LAT2=$(LAT2)\
 	gridlist_reference=$(gridlist_reference)\
 	gridlist_var=$(gridlist_var); \
-	./get_square_regions.py  | \
-	./filter_squares.sh | \
+	$(get_square_list) | \
 	tee output/squares.txt | \
 	tr ' ' '_')
 
@@ -153,8 +156,8 @@ $(all_wetdays_output) : $(wetdays_files) options.make
 # This is the same instruction as in the assignment for variable
 # `square_dirs`. See there for an explanation of the duplicate.
 output/squares.txt : options.make
-	@./get_square_regions.py | ./filter_squares.sh > $@
+	@$(get_square_list) > $@
 
 output/square_regions.png : options.make output/squares.txt
 	@echo "Plotting map of square subregions: $@"
-	@cat output/squares.txt | ./plot_squares.R $@
+	@./plot_squares.R  $@ < output/squares.txt
