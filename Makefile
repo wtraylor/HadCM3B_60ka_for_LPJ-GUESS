@@ -30,10 +30,6 @@ export LON1 LON2 LAT1 LAT2
 SQUARE_SIZE ?= 4
 export SQUARE_SIZE
 
-# If the user didn’t define the number of jobs for creating each square
-# subregion, we set the default.
-SUB_JOBS ?= 4
-
 # ORIGINAL FILES
 insol_files   := $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
 precip_files  := $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)

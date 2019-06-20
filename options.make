@@ -38,7 +38,3 @@ gridlist_var = tas
 # If you don’t want your output be split into squares, use a square size of
 # 360° or higher.
 SQUARE_SIZE = 4
-
-# Define how many parallel jobs shall be executed for creating each square
-# subregion.
-SUB_JOBS = 4
