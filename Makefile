@@ -47,6 +47,10 @@ export gridlist_reference gridlist_var
 # The variables from the Makefile are not available in the subshell, even
 # though they’re exported. That’s why we need to define them in the
 # subshell again.
+# We save the filtered list of squares in `output/squares.txt`. There is
+# also a rule to make that target, but we need the `square_dirs` variable
+# BEFORE any rule are executed, so we have duplicate instructions here. But
+# the goal is to calculate the regions only once.
 square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
 	export SQUARE_SIZE=$(SQUARE_SIZE) \
 	LON1=$(LON1)\
@@ -55,7 +59,10 @@ square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
 	LAT2=$(LAT2)\
 	gridlist_reference=$(gridlist_reference)\
 	gridlist_var=$(gridlist_var); \
-	./get_square_regions.py  | ./filter_squares.sh| ./get_square_dirs.sh)
+	./get_square_regions.py  | \
+	./filter_squares.sh | \
+	tee output/squares.txt | \
+	./get_square_dirs.sh)
 
 # Paths of all the output files in each square subregion.
 all_gridlist_output := $(patsubst %,output/%/gridlist.txt,$(square_dirs))
@@ -142,6 +149,11 @@ $(all_wetdays_output) : $(wetdays_files) options.make
 	$(create_square_output)
 
 
-output/square_regions.png : options.make
+# This is the same instruction as in the assignment for variable
+# `square_dirs`. See there for an explanation of the duplicate.
+output/squares.txt :
+	@./get_square_regions.py | ./filter_squares.sh > $@
+
+output/square_regions.png : options.make output/squares.txt
 	@echo "Plotting map of square subregions: $@"
-	@./get_square_regions.py | ./filter_squares.sh | ./plot_squares.R $@
+	@cat output/squares.txt | ./plot_squares.R $@
