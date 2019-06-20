@@ -10,7 +10,10 @@
 #
 # Author: Wolfgang Traylor <wolfgang.traylor@senckenberg.de>
 
-square_is_valid(){
+set -o errexit
+
+check_square(){
+  local square="$1"
   (>&2 echo "Checking if square subregion is valid: $square")
   local east=$(echo "$square" | cut --field=1 --delimiter=' ')
   local west=$(echo "$square" | cut --field=2 --delimiter=' ')
@@ -29,6 +32,9 @@ square_is_valid(){
     grep -v -P '^\s*$' | \
     grep --perl-regexp --silent '\d'
   # If grep found any number in the output, we consider this square valid.
+  if [ "$?" -eq 0 ]; then
+    echo "$square"
+  fi
 }
 
 if [ ! -f "$gridlist_reference" ]; then
@@ -41,10 +47,15 @@ if [ -z "$gridlist_var" ]; then
   exit 1
 fi
 
-while read square; do
-  if square_is_valid; then
-    echo "$square"
-  fi
+while read line; do
+  # Start all checks in parallel.
+  check_square "$line" &
+  sleep "0.01"
 done
 
+(>&2 echo "Waiting until all subregions are checked...")
+wait
+
+(>&2 echo "Filtering square subregions done.")
+sleep 5
 exit 0
