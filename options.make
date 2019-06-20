@@ -14,8 +14,8 @@
 # Also don’t use quote marks.
 #
 # These example values cover the British Isles:
-LON1 = 10
-LON2 = 50
+LON1 = 352.5
+LON2 = 3.0
 LAT1 = 49.5
 LAT2 = 58.5
 
