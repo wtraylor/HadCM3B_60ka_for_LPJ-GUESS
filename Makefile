@@ -48,13 +48,18 @@ gridlist_var ?= tas  # NetCDF variable in $(gridlist_reference).
 export gridlist_reference gridlist_var
 
 # All the directory names for the square subregions (not the full path).
+# The variables from the Makefile are not available in the subshell, even
+# though they’re exported. That’s why we need to define them in the
+# subshell again.
 square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
-	SQUARE_SIZE=$(SQUARE_SIZE) \
+	export SQUARE_SIZE=$(SQUARE_SIZE) \
 	LON1=$(LON1)\
 	LON2=$(LON2)\
 	LAT1=$(LAT1)\
 	LAT2=$(LAT2)\
-	./get_square_regions.py | ./get_square_dirs.sh)
+	gridlist_reference=$(gridlist_reference)\
+	gridlist_var=$(gridlist_var); \
+	./get_square_regions.py  | ./filter_squares.sh| ./get_square_dirs.sh)
 
 # Paths of all the output files in each square subregion.
 all_gridlist_output := $(patsubst %,output/%/gridlist.txt,$(square_dirs))
@@ -143,4 +148,4 @@ $(all_wetdays_output) : $(wetdays_files) options.make
 
 output/square_regions.png : options.make
 	@echo "Plotting map of square subregions: $@"
-	@./get_square_regions.py | ./plot_squares.R $@
+	@./get_square_regions.py | ./filter_squares.sh | ./plot_squares.R $@
