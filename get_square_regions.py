@@ -2,15 +2,12 @@
 #
 # Calculate longitude and latitude of small square subregions that make up
 # the user-defined region given by environment variables LON1, LON2, LAT1,
-# LAT2. Whether a square is valid is determined by whether it has at least
-# one valid grid cell in the `gridlist_reference` NetCDF file at timestep
-# 1.
+# LAT2.
 #
 # Author: Wolfgang Traylor (wolfgang.traylor@senckenberg.de)
 
 import os
 import sys
-import subprocess
 
 
 def inc_lat(x):
@@ -21,32 +18,6 @@ def inc_lat(x):
 def inc_lon(x):
     """ Increment longitude x by one square edge length. """
     return min(x + square_size, lon_bounds[1])
-
-
-def square_is_valid(s):
-    """ Return true if square has at least one valid grid cell. """
-    assert(os.environ['gridlist_var'])
-    assert(os.environ['gridlist_reference'])
-    ncks = subprocess.Popen(['ncks',
-                             '--variable=%s' % os.environ['gridlist_var'],
-                             '-H',  # no metadata
-                             '-C',  # no coordinates
-                             r'--string="%f\n"',  # prints '_' if missing
-                             '--dimension=time,0',  # First timestep.
-                             '--dimension=lon,%.2f,%.2f' % (s[0], s[1]),
-                             '--dimension=lat,%.2f,%.2f' % (s[2], s[3]),
-                             os.environ['gridlist_reference']],
-                            stdout=subprocess.PIPE)
-    # If only one grid cell value is found that’s not missing (i.e. '_'),
-    # we consider this square valid.
-    grep = subprocess.Popen(['grep', '--invert-match', '--silent', '_'],
-                            stdin=ncks.stdout,
-                            stdout=subprocess.PIPE).stdout
-    for line in grep.readlines():
-        print(str(line).strip(), file=sys.stderr)
-        if not str(line).strip():
-            return True  # Found a number!
-    return False  # No valid number found
 
 
 # Edge length of one square.
@@ -74,12 +45,12 @@ square = [lon_bounds[0], inc_lon(lon_bounds[0]),
 # List of all squares.
 squares = list()
 
-# Construct all possible squares.
 while square[2] <= lat_bounds[1] - .001:  # latitude loop from S to N
     while square[0] <= lon_bounds[1] - .001:  # longitude loop from E to W
         square_normalized = [square[0] % 360, square[1] % 360,
                              square[2], square[3]]
         squares += [square_normalized[:]]
+        sys.stdout.write("%.2f %.2f %.2f %.2f\n" % tuple(squares[-1]))
         # Move to next square along the longitude axis. Leave latitude within
         # this loop untouched.
         square = [square[1], inc_lon(square[1]),
@@ -88,12 +59,3 @@ while square[2] <= lat_bounds[1] - .001:  # latitude loop from S to N
     # beginning.
     square = [lon_bounds[0], inc_lon(lon_bounds[0]),
               square[3], inc_lat(square[3])]
-
-# Print out only those squares that have at least one valid grid cell.
-# Print all squares to STDOUT.
-for s in squares:
-    if square_is_valid(s):
-        print("VALID: " + str(s), file=sys.stderr)
-        sys.stdout.write("%.2f %.2f %.2f %.2f\n" % tuple(s))
-    else:
-        print("not valid: " + str(s), file=sys.stderr)

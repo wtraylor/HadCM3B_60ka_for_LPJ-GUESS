@@ -54,8 +54,6 @@ square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
 	LON2=$(LON2)\
 	LAT1=$(LAT1)\
 	LAT2=$(LAT2)\
-	gridlist_reference="$(gridlist_reference)"\
-	gridlist_var="$(gridlist_var)"\
 	./get_square_regions.py | ./get_square_dirs.sh)
 
 # Paths of all the output files in each square subregion.
