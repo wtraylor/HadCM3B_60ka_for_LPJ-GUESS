@@ -152,7 +152,7 @@ $(all_wetdays_output) : $(wetdays_files) options.make
 
 # This is the same instruction as in the assignment for variable
 # `square_dirs`. See there for an explanation of the duplicate.
-output/squares.txt :
+output/squares.txt : options.make
 	@./get_square_regions.py | ./filter_squares.sh > $@
 
 output/square_regions.png : options.make output/squares.txt
