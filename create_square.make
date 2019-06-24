@@ -113,8 +113,8 @@ $(TMP_DIR)/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc 
 # means the files need to be sorted in reversed alphabetical order,
 # starting with "60" all the way to "0".
 
-concatenate_along_time = @echo $^ | sed 's/ /\n/g' | sort --reverse | \
-						 xargs ncrcat --overwrite --output $@
+concatenate_along_time = @xargs ncrcat --overwrite --output $@ \
+						 $(shell ./sort_nc_files_chronologically.sh $^)
 
 reorder_dimensions = @echo 'Reordering dimensions: $@' ;\
 	ncpdq --overwrite --reorder 'lon,lat,time' $@ $@
