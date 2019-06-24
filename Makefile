@@ -44,29 +44,12 @@ gridlist_var ?= tas  # NetCDF variable in $(gridlist_reference).
 export gridlist_reference gridlist_var
 
 # All the directory names for the square subregions (not the full path).
-# The pattern is: "<east>_<west>_<south>_<north>"
-# The variables from the Makefile are not available in the subshell, even
-# though they’re exported. That’s why we need to define them in the
-# subshell again.
+# The pattern is: "<id>_<east>_<west>_<south>_<north>"
 # We save the filtered list of squares in `output/squares.txt`. There is
-# also a rule to make that target, but we need the `square_dirs` variable
-# BEFORE any rule are executed, so we have duplicate instructions here. But
-# the goal is to calculate the regions only once.
-get_square_list := \
-	./get_square_regions.py  | \
-	./filter_squares.sh | \
-	nl --number-width=4 --number-format='rz' --number-separator=' '
-square_dirs := $(shell echo 'Calculating square subregions...' >&2;\
-	export SQUARE_SIZE=$(SQUARE_SIZE) \
-	LON1=$(LON1)\
-	LON2=$(LON2)\
-	LAT1=$(LAT1)\
-	LAT2=$(LAT2)\
-	gridlist_reference=$(gridlist_reference)\
-	gridlist_var=$(gridlist_var); \
-	$(get_square_list) | \
-	tee output/squares.txt | \
-	tr ' ' '_')
+# a rule to make that target, but we need the `square_dirs` variable
+# BEFORE any rule are executed. So please run first `make
+# output/squares.txt` and afterwards `make`.
+square_dirs = $(shell cat output/squares.txt 2>/dev/null | tr ' ' '_')
 
 # Paths of all the output files in each square subregion.
 all_gridlist_output := $(patsubst %,output/%/gridlist.txt,$(square_dirs))
@@ -83,8 +66,27 @@ all_output_files := $(all_gridlist_output) \
 	output/co2.txt \
 	output/square_regions.png
 
+# Variable `square_dirs` needs to be set the rules in this Makefile. But
+# for that to happen we need "output/squares.txt" already created. So by
+# default, we first create "output/squares.txt" and afterwards call this
+# Makefile again, building all output targets.
 .PHONY:default
-default : $(all_output_files)
+default : output/squares.txt
+	@$(MAKE) --no-print-directory all
+
+# The list of squares needs to be created first. Afterwards call this
+# Makefile again.
+output/squares.txt : options.make
+	@mkdir --parents --verbose $(shell dirname $@)
+	@./get_square_regions.py  | \
+		./filter_squares.sh | \
+		nl --number-width=4 --number-format='rz' --number-separator=' ' \
+		> $@
+
+# Build all output targets. This needs "output/squares.txt" already created
+# before reading the Makefile!
+.PHONY:all
+all : $(all_output_files)
 	@echo 'Deleting temporary files in "output/" folder...'
 	@find 'output/' -name '*.tmp' -delete -print | sed 's;^;removed ;g'
 	@echo 'Everything done.'
@@ -151,13 +153,6 @@ $(all_temp_output) : $(temp_files) options.make
 
 $(all_wetdays_output) : $(wetdays_files) options.make
 	$(create_square_output)
-
-
-# This is the same instruction as in the assignment for variable
-# `square_dirs`. See there for an explanation of the duplicate.
-output/squares.txt : options.make
-	@mkdir --parents --verbose $(shell dirname $@)
-	@$(get_square_list) > $@
 
 output/square_regions.png : options.make output/squares.txt
 	@echo "Plotting map of square subregions: $@"
