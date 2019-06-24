@@ -14,9 +14,10 @@
 
 readonly str=$(echo "$1" | grep -Po '(?<=output/)\d.*_.*_.*_.*\d(?=/)')
 
+ID=$(echo "$str" | cut --delimiter='_' --field=1)
 LON1=$(echo "$str" | cut --delimiter='_' --field=2)
 LON2=$(echo "$str" | cut --delimiter='_' --field=3)
 LAT1=$(echo "$str" | cut --delimiter='_' --field=4)
 LAT2=$(echo "$str" | cut --delimiter='_' --field=5)
 
-echo "LON1=$LON1 LON2=$LON2 LAT1=$LAT1 LAT2=$LAT2"
+echo "ID=$ID LON1=$LON1 LON2=$LON2 LAT1=$LAT1 LAT2=$LAT2"

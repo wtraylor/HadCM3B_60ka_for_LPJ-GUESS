@@ -5,10 +5,10 @@ SHELL=bash
 .DELETE_ON_ERROR:
 
 # Output directory for this square subregion.
-OUT_DIR = output/$(LON1)_$(LON2)_$(LAT1)_$(LAT2)
+OUT_DIR = output/$(ID)_$(LON1)_$(LON2)_$(LAT1)_$(LAT2)
 
 # Directory for intermediary files.
-TMP_DIR = tmp/$(LON1)_$(LON2)_$(LAT1)_$(LAT2)
+TMP_DIR = tmp/$(ID)_$(LON1)_$(LON2)_$(LAT1)_$(LAT2)
 
 OUTPUT_FILES = $(OUT_DIR)/insolation.nc \
 			   $(OUT_DIR)/precipitation.nc \
