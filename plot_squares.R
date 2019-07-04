@@ -51,6 +51,15 @@ regions.map <- ggplot() +
     color = "red",
     fill = NA
     ) +
+  geom_label(
+    data = squares.db,
+    aes(label = id, x = (east + west) / 2, y = (south + north) / 2),
+    color = "red",
+    fill = "white",
+    alpha = 0.8,
+    hjust = 0.5,
+    vjust = 0.5
+    ) +
   coord_fixed(xlim = lon_bounds, ylim = lat_bounds) +
   labs(
     x = "Longitude",
