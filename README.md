@@ -59,6 +59,7 @@ Repository Structure
 - `environment.yml`: Anaconda environment file.
 - `external_files/`: Original input files. See section “Include Original Files”.
 - `extract_square_coords.sh`: Helper script to set environment variables for square coordinates.
+- `extract_years_from_filename.py`: Helper script to parse the year information out of the original filenames.
 - `get_square_regions.py`: Helper script to define square subregions.
 - `months_to_days.py`: Helper script to convert time unit from “months since” to “days since”. Don’t call this directly.
 - `options.make`: User-defined options in `Makefile` syntax.

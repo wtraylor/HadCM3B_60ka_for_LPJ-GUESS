@@ -11,11 +11,12 @@
 # License: See LICENSE file in repository.
 
 import os
-import re
 import sys
 
 import numpy
 import xarray as xr
+
+from extract_years_from_filename import extract_years
 
 if len(sys.argv) != 3:
     sys.exit('Please provide exactly two argument:\n'
@@ -29,21 +30,7 @@ if not os.path.isfile(in_file):
 if os.path.isfile(out_file):
     sys.exit(f'Output file already exists: {out_file}')
 
-# Find the starting year for this particular file. Since the NetCDF files
-# don’t contain that information in their metadata, we need to derive it
-# from the filename.
-# The counting starts with `start_year==0` at the first HadCM3B simulation
-# year, which is 60,000 years BP.
-# For example the filename "regrid_downSol_Seaice_mm_s3_srf_2.5_5kyr.nc" will
-# yield the start year 55000 (60ka - 5ka).
-try:
-    start_year_str = re.search(r'(?<=_)\d+\.?5?(?=kyr\.nc)', in_file).group(0)
-    start_year = (60 - float(start_year_str)) * 1000
-except (AttributeError, ValueError):
-    sys.exit('Failed to extract year information from file name:\n'
-             '"%s"\n' % in_file +
-             'Did you change the original filename?')
-start_day = start_year * 365
+start_day = extract_years(in_file)[0] * 365
 
 # Prepare a vector of values for the time axis in "days since".
 # It has 30,000 entries for the 2,400 years of transient monthly data in the
