@@ -30,11 +30,23 @@ export LON1 LON2 LAT1 LAT2
 SQUARE_SIZE ?= 4
 export SQUARE_SIZE
 
+# If the user didn’t define the time slice, we just use the whole dataset.
+FIRST_YEAR ?= 0
+LAST_YEAR  ?= 60000
+FIRST_DAY := $(shell echo $$(( $(FIRST_YEAR) * 365 )) )
+LAST_DAY  := $(shell echo $$(( $(LAST_YEAR) * 365 )) )
+export FIRST_DAY LAST_DAY
+
 # ORIGINAL FILES
-insol_files   := $(shell ls external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null)
-precip_files  := $(shell ls external_files/bias_regrid_pr_*kyr.nc 2>/dev/null)
-temp_files    := $(shell ls external_files/bias_regrid_tas_*kyr.nc 2>/dev/null)
-wetdays_files := $(shell ls external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null)
+# Filtered by time.
+insol_files   := $(shell ls --quote-name external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null \
+	| xargs ./filter_nc_files.sh)
+precip_files  := $(shell ls --quote-name external_files/bias_regrid_pr_*kyr.nc 2>/dev/null \
+	| xargs ./filter_nc_files.sh)
+temp_files    := $(shell ls --quote-name external_files/bias_regrid_tas_*kyr.nc 2>/dev/null \
+	| xargs ./filter_nc_files.sh)
+wetdays_files := $(shell ls --quote-name external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null \
+	| xargs ./filter_nc_files.sh)
 export insol_files precip_files temp_files wetdays_files
 
 # Take the first temperature output file to create the gridlist. It could

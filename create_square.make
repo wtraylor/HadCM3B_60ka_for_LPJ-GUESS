@@ -112,8 +112,11 @@ $(TMP_DIR)/regrid_rd3_mm_srf_%kyr.nc : external_files/regrid_rd3_mm_srf_%kyr.nc 
 # We need to feed the files in chronological order into `ncrcat`, which
 # means the files need to be sorted in reversed alphabetical order,
 # starting with "60" all the way to "0".
-
-concatenate_along_time = @xargs ncrcat --overwrite --output $@ \
+# For hyperslabbing, NCO needs a floating point variable with a '.' dot.
+FIRST_DAY_F = $(shell env LANG=en_US printf '%.1f' $(FIRST_DAY))
+LAST_DAY_F  = $(shell env LANG=en_US printf '%.1f' $(LAST_DAY))
+concatenate_along_time = @ncrcat --overwrite --output $@ \
+						 --dimension time,$(FIRST_DAY_F),$(LAST_DAY_F) \
 						 $(shell ./sort_nc_files_chronologically.sh $^)
 
 reorder_dimensions = @echo 'Reordering dimensions: $@' ;\

@@ -19,6 +19,13 @@ LON2 = 3.0
 LAT1 = 49.5
 LAT2 = 58.5
 
+# The time frame for output files.
+# A value of 1 means the oldest year of the dataset, i.e. 60,000 years BP.
+# A value of 60000 is the last year of the dataset. If left undefined, the
+# whole dataset will be used.
+FIRST_YEAR = 57000  # 3ka BP
+LAST_YEAR  = 60000  # present-day
+
 # Constant CO₂ value in ppm:
 CO2_CONSTANT = 340
 
@@ -26,7 +33,7 @@ CO2_CONSTANT = 340
 # to define the square subregions. This should be the time with the lowest
 # sea level in your time series so that you get the maximum land area for
 # your simulation.
-gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
+# gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
 # NetCDF variable in $(gridlist_reference).
 gridlist_var = tas
 

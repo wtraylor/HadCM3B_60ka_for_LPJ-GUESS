@@ -33,11 +33,11 @@ Changes Made to the Original
     - Year 1 is the first year of the HadCM3B simulation, that is the calendar year 60,000 BP. So the output files will show dates in the time dimension from year 1 to 60,000.
 - Crop to the region specified in `options.make` (optional).
 - Create attribute `missing_value`, which is deprecated, but recognized by LPJ-GUESS. It has the same value as `_FillValue`. Compare the [NCO reference](http://nco.sourceforge.net/nco.html#Missing-Values).
-- Concatenate full timeline.
+- Concatenate timeline within the time range defined in `options.make`.
 - Reorder dimensions from `time,lon,lat` to `lon,lat,time`. This way LPJ-GUESS can access the values for each grid cell along the time axis faster.
 
 ### Square Subregions
-To concatenate the whole Northern hemisphere over 60,000 years would yield insanely large NetCDF output files, and consecutively very large LPJ-GUESS output files. To keep the files in a manageable size, the output is split into “square subregions.” Each square NetCDF file contains the full timeline and can be used as input for a transient simulation run in LPJ-GUESS.
+To concatenate the whole Northern hemisphere over 60,000 years would yield insanely large NetCDF output files, and consecutively very large LPJ-GUESS output files. To keep the files in a manageable size, the output is split into “square subregions.” Each square NetCDF file contains the full timeline (as defined in `options.make`) and can be used as input for a transient simulation run in LPJ-GUESS.
 
 With many separate LPJ-GUESS simulations comes the additional advantage of flexibility in scheduling the jobs. A simulation of _one square_ will allow an estimate of the time and resource consumption necessary for _one grid cell,_ from which you can derive the requirements for the simulating the _whole dataset._ And the simulation jobs for each square can the be scheduled as the resources permit.
 
@@ -60,6 +60,7 @@ Repository Structure
 - `external_files/`: Original input files. See section “Include Original Files”.
 - `extract_square_coords.sh`: Helper script to set environment variables for square coordinates.
 - `extract_years_from_filename.py`: Helper script to parse the year information out of the original filenames.
+- `filter_nc_files.sh`: Helper script to check if original NetCDF file falls in desired time frame, based on filename.
 - `get_square_regions.py`: Helper script to define square subregions.
 - `months_to_days.py`: Helper script to convert time unit from “months since” to “days since”. Don’t call this directly.
 - `options.make`: User-defined options in `Makefile` syntax.
@@ -82,8 +83,9 @@ Usage
 
 ### Include Original Files
 The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
-For each of the original NetCDF files one output file is created.
-So if you don’t want to include the whole time series, you put only those files into `external_files` that you are interested in having prepared for LPJ-GUESS.
+Only the files within the time frame specified in `options.make` are processed.
+
+**Do not change the original filenames!**
 
 ### Limited Diskspace
 The intermediary files in `tmp/` and the output files in `output/` might take up a lot of diskspace. If you have limited space on your local hard drive, you can mount or symlink the `output/` and the `tmp/` from another drive here, overriding the automatically created folders. Do this before calling `make`.
