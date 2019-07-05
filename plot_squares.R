@@ -12,12 +12,6 @@
 library(ggplot2)
 library(maps)
 
-# Convert longitude from 0°/360° to -180°/+180° format.
-convert_long_to_180 <- function(x){
-  ifelse(x > 180, x - 360, x)
-}
-
-
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 1)
   stop("Please provide exactly one argument.")
@@ -39,16 +33,21 @@ lat_bounds <- as.numeric(c(LAT1, LAT2))
 squares.db <- read.csv(file = "stdin", header = FALSE, sep = " ")
 names(squares.db) <- c("id", "east", "west", "south", "north")
 
-pacific_centered <- (lon_bounds[1] < 180 && lon_bounds[2] > 180)
+# Fix those squares that cross 0° longitude.
+squares.db$west <- mapply(
+  function(e, w) ifelse(w < e, w + 360, w),
+  squares.db$east,
+  squares.db$west
+)
 
-if (!pacific_centered) {
-  squares.db$east = convert_long_to_180(squares.db$east)
-  squares.db$west = convert_long_to_180(squares.db$west)
-  lon_bounds = convert_long_to_180(lon_bounds)
-}
+world_map <- ggplot2::map_data("world", wrap = c(0, 360))
 
-world_map <- ggplot2::map_data("world",
-  wrap = ifelse(pacific_centered, lon_bounds, FALSE)
+png(
+  filename = png_file,
+  width = 4096,
+  height = 1300,
+  res = 200,
+  pointsize = 3
 )
 
 regions.map <- ggplot() +
@@ -60,18 +59,20 @@ regions.map <- ggplot() +
     data = squares.db,
     aes(xmin = east, xmax = west, ymin = south, ymax = north),
     color = "red",
-    fill = NA
+    fill = "white",
+    alpha = 0.3
     ) +
-  geom_label(
+  geom_text(
     data = squares.db,
     aes(label = id, x = (east + west) / 2, y = (south + north) / 2),
     color = "red",
-    fill = "white",
-    alpha = 0.8,
     hjust = 0.5,
-    vjust = 0.5
+    vjust = 0.5,
+    size = 1.3
     ) +
-  coord_fixed(xlim = lon_bounds, ylim = lat_bounds) +
+  coord_fixed(ylim = c(0,90)) +
+  scale_x_continuous(breaks = seq(0, 360, 20)) +
+  scale_y_continuous(breaks = seq(0, 90, 20)) +
   labs(
     x = "Longitude",
     y = "Latitude",
@@ -84,4 +85,5 @@ regions.map <- ggplot() +
     )
   )
 
-ggsave(png_file, regions.map)
+print(regions.map)
+dev.off()
