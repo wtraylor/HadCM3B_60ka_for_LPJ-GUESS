@@ -22,9 +22,19 @@ args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 1)
   stop("Please provide exactly one argument.")
 
-lon_bounds <- as.numeric(c(Sys.getenv("LON1"), Sys.getenv("LON2")))
-lat_bounds <- as.numeric(c(Sys.getenv("LAT1"), Sys.getenv("LAT2")))
+LON1 <- Sys.getenv("LON1")
+if (LON1 == "") stop("Environment variable LON1 not set.")
+LON2 <- Sys.getenv("LON2")
+if (LON2 == "") stop("Environment variable LON2 not set.")
+LAT1 <- Sys.getenv("LAT1")
+if (LAT1 == "") stop("Environment variable LAT1 not set.")
+LAT2 <- Sys.getenv("LAT2")
+if (LAT2 == "") stop("Environment variable LAT2 not set.")
 
+lon_bounds <- as.numeric(c(LON1, LON2))
+lat_bounds <- as.numeric(c(LAT1, LAT2))
+
+# Read the table of squares from STDIN.
 squares.db <- read.csv(file = "stdin", header = FALSE, sep = " ")
 names(squares.db) <- c("id", "east", "west", "south", "north")
 
