@@ -25,6 +25,11 @@ LAT1 <- Sys.getenv("LAT1")
 if (LAT1 == "") stop("Environment variable LAT1 not set.")
 LAT2 <- Sys.getenv("LAT2")
 if (LAT2 == "") stop("Environment variable LAT2 not set.")
+SQUARE_SIZE <- Sys.getenv("SQUARE_SIZE")
+if (SQUARE_SIZE == "") stop("Environment variable SQUARE_SIZE not set.")
+gridlist_reference <- Sys.getenv("gridlist_reference")
+if (gridlist_reference == "")
+  stop("Environment variable gridlist_reference not set.")
 
 lon_bounds <- as.numeric(c(LON1, LON2))
 lat_bounds <- as.numeric(c(LAT1, LAT2))
@@ -45,7 +50,7 @@ world_map <- ggplot2::map_data("world", wrap = c(0, 360))
 png(
   filename = png_file,
   width = 4096,
-  height = 1300,
+  height = 1350,
   res = 200,
   pointsize = 3
 )
@@ -78,10 +83,11 @@ regions.map <- ggplot() +
     y = "Latitude",
     title = "Preview of Square Subregions",
     caption = paste0(
-      "Square size: ", Sys.getenv("SQUARE_SIZE"), "°\n",
+      "Square size: ", SQUARE_SIZE, "°\n",
       "East–West: ", lon_bounds[1], "°E to ", lon_bounds[2], "°E\n",
       "South–North: ", lat_bounds[1], "°N to ", lat_bounds[2], "°N\n",
-      "Coastlines are modern."
+      "Reference file for palaeo landmass: '", gridlist_reference, "'\n",
+      "The coastlines on this map are modern."
     )
   )
 
