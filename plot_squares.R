@@ -21,6 +21,7 @@ convert_long_to_180 <- function(x){
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 1)
   stop("Please provide exactly one argument.")
+png_file <- args[1]
 
 LON1 <- Sys.getenv("LON1")
 if (LON1 == "") stop("Environment variable LON1 not set.")
@@ -83,4 +84,4 @@ regions.map <- ggplot() +
     )
   )
 
-ggsave(args[1], regions.map)
+ggsave(png_file, regions.map)
