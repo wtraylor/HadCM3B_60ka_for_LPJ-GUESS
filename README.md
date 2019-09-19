@@ -30,7 +30,7 @@ Changes Made to the Original
     - In the original, there is no time unit. Each datum is one month.
     - NetCDF commands and LPJ-GUESS struggle with large negative year numbers.
     - We define the time unit first as "months since 1-1-15" and then convert the time values to "days since 1-1-15" because LPJ-GUESS cannot handle the "months since" format.
-    - Year 1 is the first year of the HadCM3B simulation, that is the calendar year 60,000 BP. So the output files will show dates in the time dimension from year 1 to 60,000.
+    - Year 1 is the first year of the HadCM3B simulation, that is the calendar year 60,000 BP. So the output files will show dates in the time dimension from year 1 to 60,000. Since the HadCM3B simulation goes to year 1950 AD (= 0 BP), the year 60,000 in the processed data corresponds to 1950 AD.
 - Crop to the region specified in `options.make` (optional).
 - Create attribute `missing_value`, which is deprecated, but recognized by LPJ-GUESS. It has the same value as `_FillValue`. Compare the [NCO reference](http://nco.sourceforge.net/nco.html#Missing-Values).
 - Concatenate timeline within the time range defined in `options.make`.
