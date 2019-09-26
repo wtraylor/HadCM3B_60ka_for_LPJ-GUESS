@@ -39,14 +39,18 @@ export FIRST_DAY LAST_DAY
 
 # ORIGINAL FILES
 # Filtered by time.
-insol_files   := $(shell ls --quote-name external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null \
-	| xargs ./filter_nc_files.sh)
-precip_files  := $(shell ls --quote-name external_files/bias_regrid_pr_*kyr.nc 2>/dev/null \
-	| xargs ./filter_nc_files.sh)
-temp_files    := $(shell ls --quote-name external_files/bias_regrid_tas_*kyr.nc 2>/dev/null \
-	| xargs ./filter_nc_files.sh)
-wetdays_files := $(shell ls --quote-name external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null \
-	| xargs ./filter_nc_files.sh)
+insol_files   := $(shell \
+	ls --quote-name external_files/regrid_downSol_Seaice_mm_s3_srf_*kyr.nc 2>/dev/null \
+	| env FIRST_YEAR=$(FIRST_YEAR) LAST_YEAR=$(LAST_YEAR) xargs ./filter_nc_files.sh)
+precip_files  := $(shell \
+	ls --quote-name external_files/bias_regrid_pr_*kyr.nc 2>/dev/null \
+	| env FIRST_YEAR=$(FIRST_YEAR) LAST_YEAR=$(LAST_YEAR) xargs ./filter_nc_files.sh)
+temp_files    := $(shell \
+	ls --quote-name external_files/bias_regrid_tas_*kyr.nc 2>/dev/null \
+	| env FIRST_YEAR=$(FIRST_YEAR) LAST_YEAR=$(LAST_YEAR) xargs ./filter_nc_files.sh)
+wetdays_files := $(shell \
+	ls --quote-name external_files/regrid_rd3_mm_srf_*kyr.nc 2>/dev/null \
+	| env FIRST_YEAR=$(FIRST_YEAR) LAST_YEAR=$(LAST_YEAR) xargs ./filter_nc_files.sh)
 export insol_files precip_files temp_files wetdays_files
 
 # Take the first temperature output file to create the gridlist. It could
