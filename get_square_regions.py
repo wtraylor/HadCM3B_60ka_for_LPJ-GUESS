@@ -20,6 +20,14 @@ def inc_lon(x):
     return min(x + square_size, lon_bounds[1])
 
 
+def norm_lon(x):
+    """ Normalize longitude x into range [0,360]. """
+    if x == 360:
+        return 360
+    else:
+        return x % 360
+
+
 # Edge length of one square.
 square_size = float(os.environ['SQUARE_SIZE'])
 
@@ -47,7 +55,7 @@ squares = list()
 
 while square[2] <= lat_bounds[1] - .001:  # latitude loop from S to N
     while square[0] <= lon_bounds[1] - .001:  # longitude loop from E to W
-        square_normalized = [square[0] % 360, square[1] % 360,
+        square_normalized = [norm_lon(square[0]), norm_lon(square[1]),
                              square[2], square[3]]
         squares += [square_normalized[:]]
         sys.stdout.write("%.2f %.2f %.2f %.2f\n" % tuple(squares[-1]))
