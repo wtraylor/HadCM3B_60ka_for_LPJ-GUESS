@@ -1,6 +1,6 @@
 #!/bin/bash
 # Filter HadCM3B NetCDF files (received as arguments) by whether they fall
-# within the time frame given by YEAR_
+# within the time frame given by FIRST_YEAR and LAST_YEAR.
 #
 # Author: Wolfgang Traylor (wolfgang.traylor@senckenberg.de)
 #
