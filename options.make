@@ -27,4 +27,4 @@ gridlist_var = tas
 # also be 8x9 or 9x9 grid cells.)
 # If you don’t want your output be split into squares, use a square size of
 # 360° or higher.
-SQUARE_SIZE = 4
+SQUARE_SIZE = 20
