@@ -87,6 +87,8 @@ Only the files within the time frame specified in `options.make` are processed.
 
 **Do not change the original filenames!**
 
+> TODO: Explain the folder structure in `external_files` and how to verify the checksums.
+
 ### Limited Diskspace
 The intermediary files in `tmp/` and the output files in `output/` might take up a lot of diskspace. If you have limited space on your local hard drive, you can mount or symlink the `output/` and the `tmp/` from another drive here, overriding the automatically created folders. Do this before calling `make`.
 
