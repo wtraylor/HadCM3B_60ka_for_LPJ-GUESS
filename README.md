@@ -52,7 +52,7 @@ To preview how your region would be split into square subregions call `make outp
 - `create_gridlist.sh`: Helper script to create the `gridlist.txt` file. Don’t call this directly, `make` does that.
 - `create_square.make`: Helper Makefile called by `Makefile` automatically.
 - `environment.yml`: Anaconda environment file.
-- `external_files/`: Original input files. See section “Include Original Files”.
+- `external_files/`: Original input files. See section [“Include Original Files”](#include-original-files).
 - `extract_square_coords.sh`: Helper script to set environment variables for square coordinates.
 - `extract_years_from_filename.py`: Helper script to parse the year information out of the original filenames.
 - `filter_nc_files.sh`: Helper script to check if original NetCDF file falls in desired time frame, based on filename.
