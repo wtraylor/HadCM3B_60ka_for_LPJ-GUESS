@@ -1,15 +1,12 @@
-Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
-=============================================================
+# Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
 
 THIS REPOSITORY IS FOR INTERNAL USE ONLY.
 
-Authors
--------
+## Authors
 
 Wolfgang Traylor (wolfgang.traylor@senckenberg.de), Senckenberg Biodiversity and Climate Research Centre Frankfurt, Germany
 
-Naming Conventions of Original Files
-------------------------------------
+## Naming Conventions of Original Files
 
 - `tas`: temp (degC)
 - `pr`: precip (mm/day)
@@ -18,8 +15,7 @@ Naming Conventions of Original Files
 - `wchill`: Windchill (degC)
 - `tempmonmin_abs`: Minimum month temperature (degC)
 
-Changes Made to the Original
-----------------------------
+## Changes Made to the Original
 
 - Change attributes & convert units:
     - Convert temperature from °C to Kelvin: standard name `air_temperature` and unit `K`.
@@ -39,18 +35,17 @@ Changes Made to the Original
 ### Square Subregions
 To concatenate the whole Northern hemisphere over 60,000 years would yield insanely large NetCDF output files, and consecutively very large LPJ-GUESS output files. To keep the files in a manageable size, the output is split into “square subregions.” Each square NetCDF file contains the full timeline (as defined in `options.make`) and can be used as input for a transient simulation run in LPJ-GUESS.
 
-With many separate LPJ-GUESS simulations comes the additional advantage of flexibility in scheduling the jobs. A simulation of _one square_ will allow an estimate of the time and resource consumption necessary for _one grid cell,_ from which you can derive the requirements for the simulating the _whole dataset._ And the simulation jobs for each square can the be scheduled as the resources permit.
+With many separate LPJ-GUESS simulations comes the additional advantage of flexibility in scheduling the jobs. A simulation of *one square* will allow an estimate of the time and resource consumption necessary for *one grid cell,* from which you can derive the requirements for the simulating the *whole dataset.* And the simulation jobs for each square can the be scheduled as the resources permit.
 
 The `gridlist.txt` for each subregion contains only grid cells that have a valid value in the first month of the `gridlist_reference` file specified in `options.make`. Ocean grid cells are thus not included in `gridlist.txt`. Square subregions that don’t contain any valid grid cells are excluded from the beginning.
 
-One easy way to see how many valid grid cells are in a square subregion is by counting the lines in `gridlist.txt`: `wc -l gridlist.txt`. To get an overview of the amount of _all_ grid cells you can use this command: `find output/ -name 'gridlist.txt' | xargs wc -l`.
+One easy way to see how many valid grid cells are in a square subregion is by counting the lines in `gridlist.txt`: `wc -l gridlist.txt`. To get an overview of the amount of *all* grid cells you can use this command: `find output/ -name 'gridlist.txt' | xargs wc -l`.
 
 You can define the size of each square in degrees or disable the splitting in `options.make`.
 
 To preview how your region would be split into square subregions call `make output/square_regions.png`. The created map has modern coastlines, though.
 
-Repository Structure
---------------------
+## Repository Structure
 
 - `MD5.txt`: MD5 checksums for files in `external_files/`.
 - `Makefile`: Contains all top-level execution logic. Call it with the `make` command.
@@ -68,18 +63,17 @@ Repository Structure
 - `plot_squares.R`: Script for creating a map of the square subregions in `output/square_regions.png`.
 - `tmp/`: Subfolder for intermediate files.
 
-Usage
------
+## Usage
 
 ### Prerequisites
 - `make` (Usually installed on all UNIX systems.)
 - NCO (<https://nco.sourceforge.net/>)
 - Python 3 with [XArray](https://pypi.org/project/xarray/), [SciPy](https://pypi.org/project/scipy/), and [netCDF4](https://pypi.org/project/netCDF4/)
 - The recommended way to reproduce this project is to use [Anaconda](https://anaconda.org) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html):
-    + Install Anaconda or Miniconda locally or system-wide.
-    + In this repository run `conda env create environment.yml`. This should install all necessary dependencies.
-    + Switch into the environment: `conda activate HadCM3B_60ka_for_LPJ-GUESS`
-    + Now run `make` as described below.
+    - Install Anaconda or Miniconda locally or system-wide.
+    - In this repository run `conda env create environment.yml`. This should install all necessary dependencies.
+    - Switch into the environment: `conda activate HadCM3B_60ka_for_LPJ-GUESS`
+    - Now run `make` as described below.
 
 ### Include Original Files
 The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
@@ -102,7 +96,6 @@ Open a terminal in the root directory of this repository, where the `Makefile` l
 - Execute `make` to run the script. If you have a multi-core machine, you can gain speed by running parallel jobs with the `-j/--jobs` flag, e.g.: `make --jobs=5`. Check the output of `lscpu` to see how many CPU cores your machine has.
 - Execute `make clean` to remove files from the `tmp` and `output` folders. You will be asked for confirmation to delete the final output files. Of course, you can also just delete the folders manually.
 
-License
--------
+## License
 
 To be decided.
