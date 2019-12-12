@@ -76,12 +76,27 @@ To preview how your region would be split into square subregions call `make outp
     - Now run `make` as described below.
 
 ### Include Original Files
+The original NetCDF files are too big to be included in the Git repository itself.
+They need to be downloaded manually.
+You can download them from the Senckenberg internal network or request access from the authors.
+
 The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
 Only the files within the time frame specified in `options.make` are processed.
 
-**Do not change the original filenames!**
+**Important:** Do not change the original filenames!
 
-> TODO: Explain the folder structure in `external_files` and how to verify the checksums.
+All external files with their corresponding MD5 checksums are listed in `MD5.txt`.
+You can open the `MD5.txt` file with a text editor to see which files you need and what directory structure is expected.
+
+1. Open a **terminal** in the root of the repository, where the `MD5.txt` file lies.
+1. **Copy or mount or symlink** the big files in the `external_files` subdirectory directly.
+   - `external_files` should not exist yet.
+   - Simplest option: Create the directory `external_files` and copy–paste the already downloaded files into it.
+   - Alternative 1) Mount via SSH: `mkdir external_files ; sshfs -o compression=yes <USER>@172.30.45.56:/data/gitlab/bimodal/<REPOSITORY_NAME> external_files`
+   - Alternative 2) Copy from remote (see `man rsync` for more options): `mkdir external_files ; rsync --progress --copy-links --recursive <USER>@172.30.45.56:/data/gitlab/bimodal/<REPOSITORY_NAME>/* external_files/`
+   - Alternative 3) Symlink from local storage: `ln --symbolic /path/to/local/storage external_files`
+1. Run `md5sum --check MD5.txt` and **check** the output in the terminal. Are all files there and checked correctly?
+1. If some files failed the test, download them again. If that fails, contact the authors.
 
 ### Limited Diskspace
 The intermediary files in `tmp/` and the output files in `output/` might take up a lot of diskspace. If you have limited space on your local hard drive, you can mount or symlink the `output/` and the `tmp/` from another drive here, overriding the automatically created folders. Do this before calling `make`.
