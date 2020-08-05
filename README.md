@@ -53,11 +53,11 @@ Repository Structure
 --------------------
 
 - `.popper.yml`: The Popper workflow file. See [Usage](#executing-workflows).
-- `docker/Dockerfile`: Description of the Docker image built and used by Popper.
 - `MD5.txt`: MD5 checksums for files in `external_files/`.
 - `Makefile`: Contains all top-level execution logic. Call it with the `make` command.
 - `create_gridlist.sh`: Helper script to create the `gridlist.txt` file. Don’t call this directly, `make` does that.
 - `create_square.make`: Helper Makefile called by `Makefile` automatically.
+- `docker/Dockerfile`: Description of the Docker image built and used by Popper.
 - `external_files/`: Original input files. See section [Include External Files](#include-external-files).
 - `extract_square_coords.sh`: Helper script to set environment variables for square coordinates.
 - `extract_years_from_filename.py`: Helper script to parse the year information out of the original filenames.
@@ -67,6 +67,7 @@ Repository Structure
 - `options.make`: User-defined options in `Makefile` syntax.
 - `output/`: Will be created automatically and contains the final output files. Each square subregion has its own subfolder, which is named by the coordinates of the edges of the square like: `<east>_<west>_<south>_<north>`, in degrees (0°–360° E and 0°–90° N). Each square subregion folder will contain the output files `temperature.nc`, `precipitation.nc`, `wet_days.nc`, `insolation.nc`, and `gridlist.txt`.
 - `plot_squares.R`: Script for creating a map of the square subregions in `output/square_regions.png`.
+- `popper_config.yml`: Optional user configurations for mounting the folder `external_files` from somewhere else in the host file system.
 - `tmp/`: Subfolder for intermediate files.
 
 Usage
@@ -82,6 +83,10 @@ Only the files within the time frame specified in `options.make` are processed.
 
 **Do not change the original filenames!**
 
+If you keep the external files in a different drive, you can use `popper_config.yml` to mount them.
+This way you don’t need to copy the files.
+Open `popper_config.yml` in a text editor and adjust the path.
+
 ### Options
 Manipulate the file `options.make` with a text editor according to your needs.
 Instructions are in that file.
@@ -92,6 +97,12 @@ Use the [Popper](https://github.com/getpopper/popper/) command line tool to exec
 
 ```bash
 popper run
+```
+
+If you set up mount points in `popper_config.yml`, you need this command:
+
+```bash
+popper run --config popper_config.yml
 ```
 
 You should tune parallelization to your machine by setting the number of parallel jobs.

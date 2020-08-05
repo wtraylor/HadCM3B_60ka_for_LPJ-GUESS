@@ -1,0 +1,15 @@
+# Popper Configuration File
+#
+# Use this configuration file for mounting the folders `external_files`,
+# `output`, and `tmp`.
+engine:
+  name: docker
+  options:
+    volumes:
+      # Change the path left of the colon to the folder where the external
+      # files are.
+      - /data/gitlab/wtraylor/HadCM3B_60ka_for_LPJ-GUESS:/workspace/external_files
+      # If you don’t have enough storage space on your local drive, adjust
+      # these paths to store temporary and output files on a bigger volume:
+      # - /path/to/big/storage/tmp:/workspace/tmp
+      # - /path/to/big/storage/output:/workspace/output
