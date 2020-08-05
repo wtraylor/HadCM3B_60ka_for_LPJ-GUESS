@@ -47,17 +47,18 @@ One easy way to see how many valid grid cells are in a square subregion is by co
 
 You can define the size of each square in degrees or disable the splitting in `options.make`.
 
-To preview how your region would be split into square subregions call `make output/square_regions.png`. The created map has modern coastlines, though.
+To preview how your region would be split into square subregions call `popper preview` and open `output/square_regions.png`. The created map has modern coastlines, though.
 
 Repository Structure
 --------------------
 
+- `.popper.yml`: The Popper workflow file. See [Usage](#executing-workflows).
+- `docker/Dockerfile`: Description of the Docker image built and used by Popper.
 - `MD5.txt`: MD5 checksums for files in `external_files/`.
 - `Makefile`: Contains all top-level execution logic. Call it with the `make` command.
 - `create_gridlist.sh`: Helper script to create the `gridlist.txt` file. Don’t call this directly, `make` does that.
 - `create_square.make`: Helper Makefile called by `Makefile` automatically.
-- `environment.yml`: Anaconda environment file.
-- `external_files/`: Original input files. See section “Include Original Files”.
+- `external_files/`: Original input files. See section [Include External Files](#include-external-files).
 - `extract_square_coords.sh`: Helper script to set environment variables for square coordinates.
 - `extract_years_from_filename.py`: Helper script to parse the year information out of the original filenames.
 - `filter_nc_files.sh`: Helper script to check if original NetCDF file falls in desired time frame, based on filename.
@@ -72,35 +73,38 @@ Usage
 -----
 
 ### Prerequisites
-- `make` (Usually installed on all UNIX systems.)
-- NCO (<https://nco.sourceforge.net/>)
-- Python 3 with [XArray](https://pypi.org/project/xarray/), [SciPy](https://pypi.org/project/scipy/), and [netCDF4](https://pypi.org/project/netCDF4/)
-- The recommended way to reproduce this project is to use [Anaconda](https://anaconda.org) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html):
-    + Install Anaconda or Miniconda locally or system-wide.
-    + In this repository run `conda env create environment.yml`. This should install all necessary dependencies.
-    + Switch into the environment: `conda activate HadCM3B_60ka_for_LPJ-GUESS`
-    + Now run `make` as described below.
+- [Popper](https://github.com/getpopper/popper) (≥2.5.0)
+- [Docker](https://docs.docker.com/get-docker/) (≥19.03)
 
-### Include Original Files
+### Include External Files
 The downloaded files are expected in a subdirectory `external_files` under the root of this repository.
 Only the files within the time frame specified in `options.make` are processed.
 
 **Do not change the original filenames!**
 
-### Limited Diskspace
-The intermediary files in `tmp/` and the output files in `output/` might take up a lot of diskspace. If you have limited space on your local hard drive, you can mount or symlink the `output/` and the `tmp/` from another drive here, overriding the automatically created folders. Do this before calling `make`.
-
 ### Options
 Manipulate the file `options.make` with a text editor according to your needs.
 Instructions are in that file.
 
-### Run Make
-Open a terminal in the root directory of this repository, where the `Makefile` lies.
+### Executing Workflows
+This project follows the [**Popper** convention](https://getpopper.io) (Jimenez et al. 2017).
+Use the [Popper](https://github.com/getpopper/popper/) command line tool to execute the YAML workflow file (`.popper.yml`):
 
-- Execute `make` to run the script. If you have a multi-core machine, you can gain speed by running parallel jobs with the `-j/--jobs` flag, e.g.: `make --jobs=5`. Check the output of `lscpu` to see how many CPU cores your machine has.
-- Execute `make clean` to remove files from the `tmp` and `output` folders. You will be asked for confirmation to delete the final output files. Of course, you can also just delete the folders manually.
+```bash
+popper run
+```
+
+You should tune parallelization to your machine by setting the number of parallel jobs.
+Do that by opening `.popper.yml` in a text editor and change the number for the `--jobs` argument.
+The number of threads should be 1.5 times the number of your cores or less.
 
 License
 -------
 
 To be decided.
+
+References
+----------
+
+- Jimenez, I., M. Sevilla, N. Watkins, C. Maltzahn, J. Lofstead, K. Mohror, A. Arpaci-Dusseau, and R. Arpaci-Dusseau. 2017. “The Popper Convention: Making Reproducible Systems Evaluation Practical.” In *2017 Ieee International Parallel and Distributed Processing Symposium Workshops (Ipdpsw)*, 1561–70. <https://doi.org/10.1109/IPDPSW.2017.157>.
+

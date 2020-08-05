@@ -1,0 +1,15 @@
+# Popper Workflow File
+#
+# See https://getpopper.io for more information.
+#
+# Execute with `popper run`.
+# Author: Wolfgang Traylor, Senckenberg BiK-F
+
+steps:
+
+- id: preview
+  uses: "./docker"
+  args: ["make", "output/square_regions.png"]
+
+- uses: "./docker"
+  args: ["make", "--jobs=10"] # Choose your own number of threads.
