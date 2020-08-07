@@ -17,7 +17,7 @@ assert_path_for_output(png_file, overwrite = TRUE)
 
 input_file <- here("output", "squares.txt")
 assert_file_exists(input_file, access = "r")
-assert_string(readLines(input_file))  # That file is not empty.
+assert_string(readLines(input_file)[1])  # That file is not empty.
 
 LON1 <- Sys.getenv("LON1")
 if (LON1 == "") stop("Environment variable LON1 not set.")
