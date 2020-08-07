@@ -168,4 +168,4 @@ $(all_wetdays_output) : $(wetdays_files) options.make
 
 output/square_regions.png : options.make output/squares.txt
 	@echo "Plotting map of square subregions: $@"
-	@./plot_squares.R  $@ < output/squares.txt
+	@./plot_squares.R

@@ -6,16 +6,18 @@
 # "EAST WEST SOUTH NORTH"
 #
 # Author: Wolfgang Traylor <wolfgang.traylor@senckenberg.de>
-#
-# Usage: ./get_square_regions.py | ./plot_squares.R <out.png>
 
+library(checkmate)
+library(here)
 library(ggplot2)
 library(maps)
 
-args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 1)
-  stop("Please provide exactly one argument.")
-png_file <- args[1]
+png_file <- here("output", "square_regions.png")
+assert_path_for_output(png_file, overwrite = TRUE)
+
+input_file <- here("output", "squares.txt")
+assert_file_exists(input_file, access = "r")
+assert_string(readLines(input_file))  # That file is not empty.
 
 LON1 <- Sys.getenv("LON1")
 if (LON1 == "") stop("Environment variable LON1 not set.")
@@ -35,7 +37,7 @@ lon_bounds <- as.numeric(c(LON1, LON2))
 lat_bounds <- as.numeric(c(LAT1, LAT2))
 
 # Read the table of squares from STDIN.
-squares.db <- read.csv(file = "stdin", header = FALSE, sep = " ")
+squares.db <- read.csv(file = input_file, header = FALSE, sep = " ")
 names(squares.db) <- c("id", "east", "west", "south", "north")
 
 # Fix those squares that cross 0° longitude.

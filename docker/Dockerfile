@@ -5,8 +5,10 @@ RUN apt-get update && \
       make=4.2.1-1.2 \
       nco=4.7.9-1 \
       python3-netcdf4=1.4.2-1+b1 \
+      r-cran-checkmate=1.9.1-1 \
       r-cran-ggplot2=3.1.0-1 \
       python3-scipy=1.1.0-7 \
-      python3-xarray=0.11.3-2
+      python3-xarray=0.11.3-2 && \
+    Rscript -e "install.packages(\"here\")"
 
 
