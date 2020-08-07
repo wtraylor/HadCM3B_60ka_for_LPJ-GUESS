@@ -33,7 +33,7 @@ CO2_CONSTANT = 340
 # to define the square subregions. This should be the time with the lowest
 # sea level in your time series so that you get the maximum land area for
 # your simulation.
-# gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
+gridlist_reference = external_files/bias_regrid_tas_20_22.5kyr.nc
 # NetCDF variable in $(gridlist_reference).
 gridlist_var = tas
 
