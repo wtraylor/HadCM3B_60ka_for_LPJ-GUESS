@@ -23,4 +23,16 @@ function restore_original(){
     sed 's;_07.5_10kyr.nc;_7.5_10kyr.nc;'
 }
 
+if [[ "$#" -eq 0 ]]; then
+  echo >&2 "$0: ERROR - No input files received."
+  exit 1
+fi
+
+for f in $*; do
+  if [[ ! -f "$f" ]]; then
+    echo >&2 "$0: ERROR - Input file does not exist: '$f'"
+    exit 1
+  fi
+done
+
 printf "%s\n" $* | sed 's; ;\n;g' | add_zeros | sort --reverse | restore_original
