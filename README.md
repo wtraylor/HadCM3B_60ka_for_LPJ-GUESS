@@ -1,5 +1,7 @@
 # Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
 
+[![REUSE-compliant](docs/images/reuse-compliant.svg)][REUSE]
+
 ## Authors
 
 - Wolfgang Traylor (wolfgang.traylor@senckenberg.de) <https://orcid.org/0000-0002-4813-1072>, Senckenberg Biodiversity and Climate Research Centre ([SBiK-F][])
@@ -113,4 +115,10 @@ Open a terminal in the root directory of this repository, where the `Makefile` l
 
 ## License
 
-To be decided.
+This project follows the [REUSE][] standard:
+
+- Every file has its copyright/license information either in a comment at the top or in a separate text file with the extension `.license`.
+- All license texts can be found in the directory `LICENSES/`.
+- Project information and licenses for Git submodules can be found in the text file `.reuse/dep5`.
+
+[REUSE]: https://reuse.software
