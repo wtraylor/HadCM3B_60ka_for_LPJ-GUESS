@@ -1,10 +1,10 @@
 # Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
 
-THIS REPOSITORY IS FOR INTERNAL USE ONLY.
-
 ## Authors
 
-Wolfgang Traylor (wolfgang.traylor@senckenberg.de), Senckenberg Biodiversity and Climate Research Centre Frankfurt, Germany
+- Wolfgang Traylor (wolfgang.traylor@senckenberg.de) <https://orcid.org/0000-0002-4813-1072>, Senckenberg Biodiversity and Climate Research Centre ([SBiK-F][])
+
+[SBiK-F]: <https://www.senckenberg.de/en/institutes/sbik-f/>
 
 ## Naming Conventions of Original Files
 
