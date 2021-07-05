@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 # Find the starting year for this particular file. Since the NetCDF files
 # don’t contain that information in their metadata, we need to derive it
 # from the filename.

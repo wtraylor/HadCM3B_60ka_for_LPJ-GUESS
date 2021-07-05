@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 #
 # Filter square subregions from stdin to stdout.
 # Each line is a subregion in the format "<east> <west> <south> <north>" in

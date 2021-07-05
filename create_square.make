@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 SHELL=bash
 
 # Make shall delete any target whose build sequence completes with a non-zero

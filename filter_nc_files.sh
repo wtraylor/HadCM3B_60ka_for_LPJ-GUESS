@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 # Filter HadCM3B NetCDF files (received as arguments) by whether they fall
 # within the time frame given by YEAR_
 #

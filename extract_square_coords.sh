@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 # Extract the coordinate bounds (LON1, LON2, LAT1, LAT2) for one square
 # subregion from the path given as argument.
 # We assume this pattern: "...output/<ID>_<LON1>_<LON2>_<LAT1>_<LAT2>/..."

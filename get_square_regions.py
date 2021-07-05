@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 #
 # Calculate longitude and latitude of small square subregions that make up
 # the user-defined region given by environment variables LON1, LON2, LAT1,

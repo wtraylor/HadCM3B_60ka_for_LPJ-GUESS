@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 #
 # Convert time axis of given NetCDF file from "months since" to "days
 # since", starting to count from 60,000 years BP (the beginning of the

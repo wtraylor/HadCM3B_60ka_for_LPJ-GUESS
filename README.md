@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2021 Wolfgang Traylor <wolfgang.traylor@senckenberg.de>
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
+
 # Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
 
 [![REUSE-compliant](docs/images/reuse-compliant.svg)][REUSE]

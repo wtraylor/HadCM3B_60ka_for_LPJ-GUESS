@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 ###########################################################################
 # Author: Wolfgang Traylor, Senckenberg BiK-F (wolfgang.traylor@senckenberg.de)
 # Convert paleoclimate data from 60ka HadCM3B run as input for LPJ-GUESS.

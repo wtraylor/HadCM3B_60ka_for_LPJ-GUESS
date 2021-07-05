@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 #
 # Plot the square subregions on a map.
 # The plot is written as PNG to the file given as argument.

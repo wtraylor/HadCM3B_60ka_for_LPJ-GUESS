@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2021 W. Traylor <wolfgang.traylor@senckenberg.de>
+#
+# SPDX-License-Identifier: MIT
+
 # Create an index gridlist for LPJ-GUESS from a NetCDF file.
 # Note that the cf_gridlist in LPJ-GUESS just takes indices, not actual
 # longitude and latitude.
