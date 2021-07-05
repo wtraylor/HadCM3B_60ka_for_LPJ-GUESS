@@ -6,7 +6,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Prepare HadCM3B 60ka Paleoclimate Data as Input for LPJ-GUESS
 
-[![REUSE-compliant](docs/images/reuse-compliant.svg)][REUSE]
+[![REUSE-compliant](reuse-compliant.svg)][REUSE]
 [![DOI](https://zenodo.org/badge/228434046.svg)](https://zenodo.org/badge/latestdoi/228434046)
 
 ## Authors
